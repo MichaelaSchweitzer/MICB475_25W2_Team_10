@@ -54,3 +54,10 @@
 - Maybe starting coding
 - Start framing the proposal
 - Why are we doing each aim in relation to our whole exploratory research question?
+
+## Team Meeting #2 February 9th, 2026: Agenda
+1. Discuss preliminary data processing on QIIME2.
+2. Discuss outline for key aims and rationales (to be expanded on in the proposal).
+3. Discuss key highlights for the introduction (setting up the context for our project).
+4. Outline and refine research question and hypothesis.
+5. Quick discussion of lit review on previous UJEMI publication that followed a similar workflow as our planned project.
