@@ -1,8 +1,26 @@
 ## !/bin/bash
 
-#log onto server with team 10 credentials 
+# log onto server with team 10 credentials (swap * for IP, enter password when prompted) 
+ssh root@*
 
-#madi feb 7 
-#add folder for fish microbiome data processing (for project 2 proposal) 
+
+# madi february 7 
+# add folder for fish microbiome data processing (for project 2 proposal) 
 mkdir /data/fish_microbiome
 cd /data/fish_microbiome
+
+# import fish data 
+qiime tools import \
+  --type 'SampleData[SequencesWithQuality]' \
+  --input-path /datasets/project_2/fish/fish_manifest.tsv \
+  --output-path single-end-demux.qza \
+  --input-format SingleEndFastqManifestPhred33V2
+
+# generate visualization file 
+qiime demux summarize \
+  --i-data single-end-demux.qza \
+  --o-visualization demux.qzv
+
+# export file (in terminal not connected to server, enter password when prompted)
+scp root@*:/data/fish_microbiome/demux.qzv .  
+# view online (https://view.qiime2.org/) 
