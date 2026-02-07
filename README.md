@@ -1,10 +1,12 @@
 # MICB475_25W2_Team_10
 
+Team 10: Mirren Buchanan, Gopika Makhija, Phoebe McNair-Luxon, Mia North, Madilyn Portas, Michaela Schweitzer
+
 ## Team Meeting #1 February 2nd, 2026: Agenda
 
 1. Discuss ideas for Project 2
    a. Phoebe's idea: Does host phylogeny constrain microbiome composition across fish species?
-      Aka. what is the more important determinant of microbiome composition and diversity, the environment or host phylogeny??
+      What is the more important determinant of microbiome composition and diversity, the environment or host phylogeny?
        - This would use the fish dataset (from MICB 475)
    b. Michaela's idea: Does the predominant tree cover inhabiting BC affect the diversity of the microbial community when regenerating after OM removal?
        - This would use the soil dataset (from MICB 475)
@@ -14,7 +16,7 @@
    a. Dividing up tasks
    b. Further research needed to be happy with the topic 
 
-## Team Meeting #1 Minutes (February 2nd, 2026)
+## Team Meeting #1 February 2nd, 2026: Minutes
 
 ### Ideas for the project: 
 - Fish dataset: There's one phylogenetic group that is overrepresented, everything else is sample size of 2. 
@@ -33,7 +35,7 @@
 - Soil dataset: A group already did tree cover unfortunately 
 
 ### Proposal prep notes:
-- Need to process the dataset in QIIME2 BEFORE the proposal is do
+- Need to process the dataset in QIIME2 BEFORE the proposal is due
 - Then our work moves into R for the actual analysis
 - Finding morphological dimension category to focus on for this project
 - Proposal will be pretty vague because we don't know what's going to come out of the modeling (variable x, variable y)
@@ -45,9 +47,9 @@
 - Do a for loop to give you p-values for alpha diversity metrics (Spearman's rank or Kruskal-Wallis)
 - This will hopefully identify something that's interesting
 - Turn whatever variable into something categorical (big, medium, small)
-- Aim 2: Run diversity metrics (beta!!)
+- Aim 2: Run diversity metrics (beta!)
 - Aim 3: Run indicator taxa or core microbiome or deseq
-- Aim 4: Run functional analysis (piecrust2) or random forest (depending on the category we find)
+- Aim 4: Run functional analysis (picrust2) or random forest (depending on the category we find)
 
 ### For next week:
 - Start getting our thoughts together for this
