@@ -1,0 +1,8 @@
+## !/bin/bash
+
+#log onto server with team 10 credentials 
+
+#madi feb 7 
+#add folder for fish microbiome data processing (for project 2 proposal) 
+mkdir /data/fish_microbiome
+cd /data/fish_microbiome
