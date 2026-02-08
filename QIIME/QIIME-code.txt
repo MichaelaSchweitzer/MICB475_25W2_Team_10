@@ -3,7 +3,6 @@
 # log onto server with team 10 credentials (swap * for IP, enter password when prompted) 
 ssh root@*
 
-
 # madi february 7 
 # add folder for fish microbiome data processing (for project 2 proposal) 
 mkdir /data/fish_microbiome
@@ -24,3 +23,47 @@ qiime demux summarize \
 # export file (in terminal not connected to server, enter password when prompted)
 scp root@*:/data/fish_microbiome/demux.qzv .  
 # view online (https://view.qiime2.org/) 
+
+####### Feb 8th, 2026 by Phoebe 
+### Code for picking up where Madi left off yesterday with importing and demultiplexing data. This is for continuing with a denoising step. By this end of this code I will have a visualization for table and representative sequences. 
+
+## Connect to Server via Team Ten Credentials 
+ssh root@* (swap * for IP)
+
+####Denoiseing and declustering using ASVs with DADA2 (for project 2 proposal)
+# Determine ASVs with DADA2
+#done in data/fish_microbiome 
+#chose this truncation length of 218 as after 218 almost avery bp is below 25 phred score in QIIME2 online viewer of exported demux.qzv. Consulted Michaela, Madi, and Mirren. 
+  qiime dada2 denoise-single \
+    --i-demultiplexed-seqs single-end-demux.qza \
+    --p-trim-left 0 \
+    --p-trunc-len 218 \
+    --o-representative-sequences representative-sequences.qza \
+    --o-table table.qza \
+    --o-denoising-stats denoising-stats.qza
+  
+      #Output: 
+      #Saved FeatureTable[Frequency] to: table.qza
+      #Saved FeatureData[Sequence] to: representative-sequences.qza
+      #Saved SampleData[DADA2Stats] to: denoising-stats.qza
+
+# Visualize ASVs stats (for addition of information on the denoised dataset to project 2 proposal) # Ran in fish_microbiome
+qiime feature-table tabulate-seqs \
+  --i-data representative-sequences.qza \
+  --o-visualization rep-seqs.qzv
+
+  # Output: Saved Visualization to: rep-seqs.qzv
+
+ qiime feature-table summarize \
+  --i-table table.qza \
+  --o-visualization table.qzv \
+  --m-sample-metadata-file /datasets/project_2/fish/fish_metadata.txt
+
+  # Output: Saved Visualization to: table.qzv
+
+##Export visualizations (run each individually in local computer)
+scp root@*:/data/fish_microbiome/rep-seqs.qzv . #swap * for team 10 server IP
+
+scp root@*:/data/fish_microbiome/table.qzv . #swap * for team 10 server IP
+
+ ## Can now look as the visualization outputs via the QIIME2 website!! [https://view.qiime2.org/](https://view.qiime2.org/)
