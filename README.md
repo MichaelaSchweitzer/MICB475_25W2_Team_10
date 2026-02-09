@@ -60,6 +60,7 @@ Team 10: Mirren Buchanan, Gopika Makhija, Phoebe McNair-Luxon, Mia North, Madily
 ## Team Meeting #2 February 9th, 2026: Agenda
 1. Discuss preliminary data processing on QIIME2.
 2. Discuss outline for key aims and rationales (to be expanded on in the proposal).
-3. Discuss key highlights for the introduction (setting up the context for our project).
-4. Outline and refine research question and hypothesis.
-5. Quick discussion of lit review on previous UJEMI publication that followed a similar workflow as our planned project.
+  - Link to proposal: https://ubcca-my.sharepoint.com/:w:/g/personal/micswtz_student_ubc_ca/IQDAbC8BS-N7Q7AE4KS3XcOfAc0gmxKv7MzBp9uRUK7lE9E?e=vWt2lS 
+4. Discuss key highlights for the introduction (setting up the context for our project).
+5. Outline and refine research question and hypothesis.
+6. Quick discussion of lit review on previous UJEMI publication that followed a similar workflow as our planned project.
