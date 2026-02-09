@@ -64,3 +64,29 @@ Team 10: Mirren Buchanan, Gopika Makhija, Phoebe McNair-Luxon, Mia North, Madily
 4. Discuss key highlights for the introduction (setting up the context for our project).
 5. Outline and refine research question and hypothesis.
 6. Quick discussion of lit review on previous UJEMI publication that followed a similar workflow as our planned project.
+
+## Team Meeting #2 February 9th, 2026: Agenda
+1. Discuss preliminary data processing on QIIME2.
+2. Discuss outline for key aims and rationales (to be expanded on in the proposal).
+3. Discuss key highlights for the introduction (setting up the context for our project).
+4. Outline and refine research question and hypothesis.
+5. Quick discussion of lit review on previous UJEMI publication that followed a similar workflow as our planned project.
+
+## Team Meeting #2 February 9th, 2026: Minutes
+### Data processing
+- Showing Hans the demultiplexed graph:
+  - Can't set our threshold at 30
+  - Can't trim at 70 (would be way too low)
+  - Setting at 218-220 for trimming
+ 
+### Research question and Aims
+- Regarding hypothesis - we shouldn't have a true hypothesis
+  - Just say that you are exploring the variables
+- Make sure in Aim 4 we're giving the option to do a functional analysis
+- Research question: something to think about is using the word "predict"
+  - We would need to have experiments to be able to test this "prediction" - it would HAVE to be machine learning (this way don't talk about functional)
+  - If we wrote it as functional instead (for Aim 4) don't use the word predict (taxonomic AND functional diversity) 
+  - Predict might not be best: we're looking for correlations (which variables impact diversity) - find a correlation between a specific variable and a specific change in diversity (taxonomic and functional) 
+  - Take out the specific names of the body sites and just change generally to "body sites"
+  - Change it to a "to what extent" question instead of "which"
+
