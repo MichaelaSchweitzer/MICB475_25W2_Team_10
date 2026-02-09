@@ -14,7 +14,7 @@ Team 10: Mirren Buchanan, Gopika Makhija, Phoebe McNair-Luxon, Mia North, Madily
 2. Key to discuss: given our large group, are these ideas challenging enough?
 3. How to flesh out the topic over the week/proposal preparation?
    a. Dividing up tasks
-   b. Further research needed to be happy with the topic 
+   b. Further research is needed to be happy with the topic 
 
 ## Team Meeting #1 February 2nd, 2026: Minutes
 
