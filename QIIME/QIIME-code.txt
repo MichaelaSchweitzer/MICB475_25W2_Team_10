@@ -67,3 +67,54 @@ scp root@*:/data/fish_microbiome/rep-seqs.qzv . #swap * for team 10 server IP
 scp root@*:/data/fish_microbiome/table.qzv . #swap * for team 10 server IP
 
  ## Can now look as the visualization outputs via the QIIME2 website!! [https://view.qiime2.org/](https://view.qiime2.org/)
+
+####### Feb 11th, 2026 by Phoebe 
+### Code for picking up where I left off last time with classifying and exporting data.  
+
+######Clustering and Taxonometric analysis 
+
+# Make a new file to store converted demultiplexed fish dataset analysis in for export
+mkdir /data/fish_microbiome/mpt_export_demultiplex #this has been run, nothing else
+
+# Taxonomic analysis - used the database pre-loaded onto the server for V4 region. Note that the Minich et al BioArchive paper did their analysis on V4 as well so this should work! 
+qiime feature-classifier classify-sklearn \
+  --i-classifier /datasets/classifiers/silva-138-99-515-806-nb-classifier.qza \
+  --i-reads representative-sequences.qza \
+  --o-classification taxonomy.qza
+
+# Output: Saved FeatureData[Taxonomy] to: taxonomy.qza
+
+qiime metadata tabulate \
+  --m-input-file taxonomy.qza \
+  --o-visualization taxonomy.qzv
+  
+# Output: Saved Visualization to: taxonomy.qzv
+
+# Taxonomy barplots
+qiime taxa barplot \
+  --i-table table.qza \
+  --i-taxonomy taxonomy.qza \
+  --m-metadata-file /datasets/project_2/fish/fish_metadata.txt \
+  --o-visualization taxa-bar-plots.qzv
+
+# Output: Saved Visualization to: taxa-bar-plots.qzv
+
+ ##Save to local computer (in local computer folder Project_2)
+scp root@10.19.139.193:/data/fish_microbiome/taxa-bar-plots.qzv . #need password
+scp root@10.19.139.193:/data/fish_microbiome/taxonomy.qzv .
+
+######Converting and Exporting demultiplexed files for R analysis
+
+qiime tools export \
+  --input-path taxonomy.qza \
+  --output-path mpt_export_demultiplex
+
+qiime tools export \
+  --input-path table.qza \
+  --output-path mpt_export_demultiplex
+
+#Convert biome files into txt files (in mpt_export_demultiplex)
+biom convert -i feature-table.biom --to-tsv -o feature-table.txt
+
+# Export whole driectory onto local computer (do from local directory)
+scp -r ssh root@10.19.139.193:/data/fish_microbiome/mpt_export_demultiplex .
