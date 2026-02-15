@@ -1,6 +1,7 @@
 # MICB475_25W2_Team_10
 
 Team 10: Mirren Buchanan, Gopika Makhija, Phoebe McNair-Luxon, Mia North, Madilyn Portas, Michaela Schweitzer
+Zotero Group: https://www.zotero.org/groups/6428513/micb_475_t10 
 
 ## Team Meeting #1 February 2nd, 2026: Agenda
 
