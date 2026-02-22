@@ -133,11 +133,10 @@ qiime phylogeny align-to-tree-mafft-fasttree \
   --o-rooted-tree rooted-tree.qza 
 
 # alpha-rarefaction
-# max depth of 900 was set based on table.qzv file (retains 21.28% of features in 59.60% of samples). this may have to be adjusted if we are disproportionately losing certain species/morphological traits 
 qiime diversity alpha-rarefaction \
   --i-table table.qza \
   --i-phylogeny rooted-tree.qza \
-  --p-max-depth 900 \
+  --p-max-depth 24641 \
   --m-metadata-file /datasets/project_2/fish/fish_metadata.txt \
   --o-visualization alpha-rarefaction.qzv
 
