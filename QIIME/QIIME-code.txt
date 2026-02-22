@@ -3,7 +3,7 @@
 # log onto server with team 10 credentials (swap * for IP, enter password when prompted) 
 ssh root@*
 
-# madi february 7 
+# Feb 7th, 2026, madi 
 # add folder for fish microbiome data processing (for project 2 proposal) 
 mkdir /data/fish_microbiome
 cd /data/fish_microbiome
@@ -118,3 +118,32 @@ biom convert -i feature-table.biom --to-tsv -o feature-table.txt
 
 # Export whole driectory onto local computer (do from local directory)
 scp -r ssh root@10.19.139.193:/data/fish_microbiome/mpt_export_demultiplex .
+
+####### Feb 11th, 2026, madi  
+### alpha-rarefaction 
+ 
+cd /data/fish_microbiome
+
+# generate tree for phylogenetic diversity analyses
+qiime phylogeny align-to-tree-mafft-fasttree \
+  --i-sequences representative-sequences.qza \
+  --o-alignment aligned-rep-seqs.qza \
+  --o-masked-alignment masked-aligned-rep-seqs.qza \
+  --o-tree unrooted-tree.qza \
+  --o-rooted-tree rooted-tree.qza 
+
+# alpha-rarefaction
+# max depth of 900 was set based on table.qzv file (retains 21.28% of features in 59.60% of samples). this may have to be adjusted if we are disproportionately losing certain species/morphological traits 
+qiime diversity alpha-rarefaction \
+  --i-table table.qza \
+  --i-phylogeny rooted-tree.qza \
+  --p-max-depth 900 \
+  --m-metadata-file /datasets/project_2/fish/fish_metadata.txt \
+  --o-visualization alpha-rarefaction.qzv
+
+# export visualization file (in terminal not connected to server, enter password when prompted)
+scp root@*:/data/fish_microbiome/alpha-rarefaction.qzv .  
+# view online (https://view.qiime2.org/) 
+
+
+
