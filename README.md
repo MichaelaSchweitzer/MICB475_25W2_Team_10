@@ -93,7 +93,13 @@ Zotero Group: https://www.zotero.org/groups/6428513/micb_475_t10
   - Change it to a "to what extent" question instead of "which"
 
 ## Team Meeting #3 February 27th, 2026
-### Finalized Aims:
+### Finalized Aims and Project Overview:
+
+**Research question**: To what extent do morphological variables describing fish species located in Southern California correlate with significant changes in microbiome taxonomic and functional diversity across body sites? 
+
+Our approach: We will first investigate how different morphological traits impact alpha and beta diversity in fish microbiomes (based on 16S sequencing). We expect to identify variables significantly associated with microbiome composition and diversity and will select these variables for downstream analysis. We will then assess microbial taxa using core microbiome, indicator species, or taxa-differential abundance analyses, depending on which variables and which question are most interesting. Finally, we will conduct a functional analysis on the variables of interest. 
+
+**Aims**
 1. Identify and select for morphological variables associated with alpha diversity, within 4 datasets based on body site.
 2. Identify key morphological variables in the four datasets produced in Aim 1 that impact beta diversity.
 3. Analyze microbial taxa by core microbiome, indicator species, or taxa differential abundance analysis in relation to the identified morphological variables.
