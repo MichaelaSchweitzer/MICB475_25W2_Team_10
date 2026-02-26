@@ -97,7 +97,7 @@ Zotero Group: https://www.zotero.org/groups/6428513/micb_475_t10
 
 **Research question**: To what extent do morphological variables describing fish species located in Southern California correlate with significant changes in microbiome taxonomic and functional diversity across body sites? 
 
-Our approach: We will first investigate how different morphological traits impact alpha and beta diversity in fish microbiomes (based on 16S sequencing). We expect to identify variables significantly associated with microbiome composition and diversity and will select these variables for downstream analysis. We will then assess microbial taxa using core microbiome, indicator species, or taxa-differential abundance analyses, depending on which variables and which question are most interesting. Finally, we will conduct a functional analysis on the variables of interest. 
+**Our approach**: We will first investigate how different morphological traits impact alpha and beta diversity in fish microbiomes (based on 16S sequencing). We expect to identify variables significantly associated with microbiome composition and diversity and will select these variables for downstream analysis. We will then assess microbial taxa using core microbiome, indicator species, or taxa-differential abundance analyses, depending on which variables and which question are most interesting. Finally, we will conduct a functional analysis on the variables of interest. 
 
 **Aims**
 1. Identify and select for morphological variables associated with alpha diversity, within 4 datasets based on body site.
