@@ -92,3 +92,42 @@ Zotero Group: https://www.zotero.org/groups/6428513/micb_475_t10
   - Take out the specific names of the body sites and just change generally to "body sites"
   - Change it to a "to what extent" question instead of "which"
 
+## Team Meeting #3 February 27th, 2026
+### Finalized Aims:
+1. Identify and select for morphological variables associated with alpha diversity, within 4 datasets based on body site.
+2. Identify key morphological variables in the four datasets produced in Aim 1 that impact beta diversity.
+3. Analyze microbial taxa by core microbiome, indicator species, or taxa differential abundance analysis in relation to the identified morphological variables.
+4. Determine how fish morphology contributes to the functional diversity of the fish microbiome across each body site.
+
+### Gantt chart 
+<img width="501" height="120" alt="image" src="https://github.com/user-attachments/assets/0f15d150-8ffb-4b5d-b89c-a375749fb328" />
+- Plan from this is to finish data processing in R by **March 1st**
+- Start Aim 1 data analysis **Next Monday**
+
+- Phoebe and Madi did initial analysis in Qiime 
+- No one specifically is signed up for data processing in R
+- **Mirren** is signed up for alpha diversity metrics (Aim 1) next week.
+
+### Splitting up coding work
+- Currently, we have people signed up for different aims in our proposal.
+     - If we follow this, some people won't code until the end of the month.
+     - Suggestion: The people signed up for each aim take the lead on their section, but coding work is done collaboratively.
+ 
+### Plan for Aim 1
+- Overview of our current plan for the for loop to get alpha diversity metrics for our variables
+     - Which variables to exclude?
+     - Which metric to use (currently planning for Shannonn)
+     - What does this code look like?
+
+### Looking ahead
+- Michaela is signed up to take the lead on Aim 2
+     - Scheduled for March **9th - 14th**
+ 
+### Other discussion points?
+
+
+
+
+
+
+
