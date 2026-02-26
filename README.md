@@ -101,6 +101,7 @@ Zotero Group: https://www.zotero.org/groups/6428513/micb_475_t10
 
 ### Gantt chart 
 <img width="501" height="120" alt="image" src="https://github.com/user-attachments/assets/0f15d150-8ffb-4b5d-b89c-a375749fb328" />
+
 - Plan from this is to finish data processing in R by **March 1st**
 - Start Aim 1 data analysis **Next Monday**
 
