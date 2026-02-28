@@ -144,5 +144,24 @@ qiime diversity alpha-rarefaction \
 scp root@*:/data/fish_microbiome/alpha-rarefaction.qzv .  
 # view online (https://view.qiime2.org/) 
 
+# February 28th, 2026 by Michaela 
+### Exporting the feature table, taxonomy file and rooted tree to make the phyloseq object
 
+cd /data/fish_microbiome/mpt_export_demultiplexed
+
+# Converting the taxonomy.qza file to a taxonomy.qzv file for export.
+
+qiime tools export \
+--input-path ../taxonomy.qza \
+--output-path taxonomy_export
+
+# Converting the rooted-tree.qza file to a qzv file for export. 
+
+qiime tools export \
+--input-path ../rooted-tree.qza \
+--output-path rooted_tree_export
+
+# Exporting the directory to the local computer.
+
+scp -r root@*:/data/fish_microbiome/mpt_export_demultiplex .
 
