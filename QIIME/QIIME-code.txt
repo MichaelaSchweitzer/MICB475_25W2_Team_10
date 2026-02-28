@@ -155,7 +155,7 @@ qiime tools export \
 --input-path ../taxonomy.qza \
 --output-path taxonomy_export
 
-# Converting the rooted-tree.qza file to a qzv file for export. 
+# Converting the rooted-tree.qza file to a nwk file for export. 
 
 qiime tools export \
 --input-path ../rooted-tree.qza \
