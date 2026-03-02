@@ -133,6 +133,16 @@ Zotero Group: https://www.zotero.org/groups/6428513/micb_475_t10
 ### Other discussion points?
 
 
+### Team Meeting 3 Minutes 
+
+## Proposal Feedback Discussion 
+- resubmit mostly changing the order of things in the introduction, the content is not necessarily wrong it just needs to be rearranged. 
+## Next steps in R Studio 
+- split the phyloseq object based on body site after cutting down the variables that we dont need
+- for loop of the column names, and then iterate through which ones you wanna keep instead of (insteadyou dont need to create subset for the dataset 
+- ones to keep: distance to dorsal, fl_cm, gape_cm, gi_cm, host_bmi, host_height, host_height_vs_max_height_tl, mass_g, month, ratio_dorsal_to_tl, ratio_gape_to_tl, ratio_gi_to_tl, swim_mode, swim_performance, 
+
+
 
 
 
