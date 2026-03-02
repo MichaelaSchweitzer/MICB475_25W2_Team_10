@@ -142,6 +142,10 @@ Zotero Group: https://www.zotero.org/groups/6428513/micb_475_t10
 - for loop of the column names, and then iterate through which ones you wanna keep instead of (insteadyou dont need to create subset for the dataset 
 - ones to keep: distance to dorsal, fl_cm, gape_cm, gi_cm, host_bmi, host_height, host_height_vs_max_height_tl, mass_g, month, ratio_dorsal_to_tl, ratio_gape_to_tl, ratio_gi_to_tl, swim_mode, swim_performance, 
 
+## Timeline 
+- By 23rd march: Aim to have the data analysis done 
+- After 23rd, start working on the slidedeck after discussing the bigger picture story and the general figures
+- On the 30th, make revisions and tweak further. 
 
 
 
