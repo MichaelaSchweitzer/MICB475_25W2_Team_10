@@ -104,6 +104,7 @@ sample_data(gill_phyloseq_object)
 tax_table(gill_phyloseq_object)
 phy_tree(gill_phyloseq_object)
 
+
 # Hindgut
 otu_table(hindgut_phyloseq_object)
 sample_data(hindgut_phyloseq_object)
@@ -121,6 +122,165 @@ otu_table(skin_phyloseq_object)
 sample_data(skin_phyloseq_object)
 tax_table(skin_phyloseq_object)
 phy_tree(skin_phyloseq_object)
+
+
+# Saving Objects (Can now just load these instead of running all of the above code)
+save(skin_phyloseq_object, midgut_phyloseq_object, hindgut_phyloseq_object, gill_phyloseq_object, file = "all_phyloseq_objects.RData") 
+
+load("all_phyloseq_objects.RData")
+
+
+#Get skin alpha diversity metrics 
+alpha_div_skin <- estimate_richness(skin_phyloseq_object, measures = "shannon")
+alpha_div_hindgut <- estimate_richness(hindgut_phyloseq_object, measures = "shannon")
+alpha_div_midgut <- estimate_richness(midgut_phyloseq_object, measures = "shannon")
+alpha_div_gill <- estimate_richness(gill_phyloseq_object, measures = "shannon")
+
+#Create a dataframe containing sampledata
+skin_data <- sample_data(skin_phyloseq_object)
+hindgut_data <- sample_data(hindgut_phyloseq_object)
+midgut_data <- sample_data(midgut_phyloseq_object)
+gill_data <- sample_data(gill_phyloseq_object)
+
+
+#Add shannon scores to sample data 
+skin_div <- cbind(alpha_div_skin, skin_data)
+hindgut_div <- cbind(alpha_div_hindgut, hindgut_data)
+gill_div <- cbind(alpha_div_gill, gill_data)
+midgut_div <- cbind(alpha_div_midgut, midgut_data)
+
+### Before we iterate through our phyloseq object, we have to first remove all "not applicable"'s, and convert numbers to numeric values (instead of characters)
+# Replace "not applicable"'s to NA (to do this we need to remove date formatting first bc R gets confused if not)
+skin_div_nodate <- select(skin_div, -"collection_date")
+skin_div_nodate[skin_div_nodate == "not applicable"] <- NA
+
+hindgut_div_nodate <- select(hindgut_div, -"collection_date")
+hindgut_div_nodate[hindgut_div_nodate == "not applicable"] <- NA
+
+midgut_div_nodate <- select(midgut_div, -"collection_date")
+midgut_div_nodate[midgut_div_nodate == "not applicable"] <- NA
+
+gill_div_nodate <- select(gill_div, -"collection_date")
+gill_div_nodate[gill_div_nodate == "not applicable"] <- NA
+
+
+# Make a vector of all the numeric variables
+num_vars <- c("dist_to_dorsal_cm", "fl_cm", "gape_cm", "gi_cm", "host_body_mass_index",
+             "host_height", "host_height_vs_max_height_tl", "mass_g", "month", "ratio_dorsal_to_tl", "ratio_gape_to_tl", 
+             "ratio_gi_to_tl", "tl_cm")
+
+
+# For loop to make all numeric variables numeric class
+skin_div_num <- skin_div_nodate
+for (n in num_vars) {
+  skin_div_num[[n]] <- as.numeric(skin_div_nodate[[n]]) 
+}
+
+gill_div_num <- gill_div_nodate
+for (n in num_vars) {
+  gill_div_num[[n]] <- as.numeric(gill_div_nodate[[n]]) 
+}
+
+hindgut_div_num <- hindgut_div_nodate
+for (n in num_vars) {
+  hindgut_div_num[[n]] <- as.numeric(hindgut_div_nodate[[n]]) 
+}
+
+midgut_div_num <- midgut_div_nodate
+for (n in num_vars) {
+  midgut_div_num[[n]] <- as.numeric(midgut_div_nodate[[n]]) 
+}
+
+#Create a vector containing the names of our columns of interest
+vars <- c("dist_to_dorsal_cm", "fl_cm", "gape_cm", "gi_cm", "host_body_mass_index",
+          "host_height", "host_height_vs_max_height_tl", "mass_g", "method_gear",
+          "month", "ratio_dorsal_to_tl", "ratio_gape_to_tl", "ratio_gi_to_tl", "swim_mode",
+          "swim_performance", "tl_cm")
+
+#Sanity check to prove 
+for (i in 1:length(hindgut_div_num)) {
+  if (class(hindgut_div_num[[i]]) == "numeric") {
+    print("is numeric") }
+  else {
+    (print("not_numeric")) }
+}
+
+
+### For loop to calculate significance for alpha diversity metrics ###
+
+#Create an empty dataframe to hold P values 
+skin_results <- data.frame(variable = character(), p_value = numeric(), method = character())
+hindgut_results <- data.frame(variable = character(), p_value = numeric(), method = character())
+midgut_results <- data.frame(variable = character(), p_value = numeric(), method = character())
+gill_results <- data.frame(variable = character(), p_value = numeric(), method = character())
+
+#Iterate through each variable, calculating alpha diversity metrics
+#Skin for loop
+for (v in vars) {
+  if (class(skin_div_num[[v]]) == "numeric") {
+    p <- cor.test(skin_div_num$Shannon, 
+                  skin_div_num[[v]],
+                  method = "spearman",
+                  use = "complete.obs")$p.value
+    skin_results <- rbind(skin_results, data.frame(variable = v, p_value = p, method = "Spearman")) }
+  else {
+    p <- kruskal.test(as.formula(paste("Shannon ~", v)), data = skin_div_num)$p.value
+    skin_results <- rbind(skin_results, data.frame(variable = v, p_value = p, method = "Kruskal-Wallis")) 
+  }
+}
+
+#Hindgut for loop
+
+for (v in vars) {
+  if (class(hindgut_div_num[[v]]) == "numeric") {
+    p <- cor.test(hindgut_div_num$Shannon, 
+                  hindgut_div_num[[v]],
+                  method = "spearman",
+                  use = "complete.obs")$p.value
+    hindgut_results <- rbind(hindgut_results, data.frame(variable = v, p_value = p, method = "Spearman")) }
+  else {
+    p <- kruskal.test(as.formula(paste("Shannon ~", v)), data = hindgut_div_num)$p.value
+    hindgut_results <- rbind(hindgut_results, data.frame(variable = v, p_value = p, method = "Kruskal-Wallis")) 
+  }
+}
+
+#Midgut for loop
+for (v in vars) {
+  if (class(midgut_div_num[[v]]) == "numeric") {
+    p <- cor.test(midgut_div_num$Shannon, 
+                  midgut_div_num[[v]],
+                  method = "spearman",
+                  use = "complete.obs")$p.value
+    midgut_results <- rbind(midgut_results, data.frame(variable = v, p_value = p, method = "Spearman")) }
+  else {
+    p <- kruskal.test(as.formula(paste("Shannon ~", v)), data = midgut_div_num)$p.value
+    midgut_results <- rbind(midgut_results, data.frame(variable = v, p_value = p, method = "Kruskal-Wallis")) 
+  }
+}
+
+#Gill for loop
+for (v in vars) {
+  if (class(gill_div_num[[v]]) == "numeric") {
+    p <- cor.test(gill_div_num$Shannon, 
+                  gill_div_num[[v]],
+                  method = "spearman",
+                  use = "complete.obs")$p.value
+    gill_results <- rbind(gill_results, data.frame(variable = v, p_value = p, method = "Spearman")) }
+  else {
+    p <- kruskal.test(as.formula(paste("Shannon ~", v)), data = gill_div_num)$p.value
+    gill_results <- rbind(gill_results, data.frame(variable = v, p_value = p, method = "Kruskal-Wallis")) 
+  }
+}
+
+
+
+
+
+
+
+
+
+
 
 
 
