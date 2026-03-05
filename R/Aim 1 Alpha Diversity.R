@@ -275,9 +275,23 @@ for (v in vars) {
 
 
 
+# continuing alpha diversity analysis (march 4th, madi)
 
+# save alpha diversity results and loop results as object 
+save(skin_div_num, midgut_div_num, hindgut_div_num, gill_div_num, skin_results, midgut_results, hindgut_results, gill_results, file = "alpha_loop_results.RData") 
 
+# load results 
+load("alpha_loop_results.RData")
 
+library(ggplot2)
+
+# example visualization for categorical data (analyzed by Kruskal-Wallis)
+kw <- ggplot(gill_div_num) + geom_boxplot(aes(y = Shannon, x = method_gear))
+kw
+
+# example visualization for continuous data (analyzed by Spearman)
+sp <- ggplot(gill_div_num, aes(x = gi_cm, y = Shannon)) + geom_point() + geom_smooth()
+sp
 
 
 
