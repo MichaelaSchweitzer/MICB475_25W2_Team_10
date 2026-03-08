@@ -133,7 +133,7 @@ Zotero Group: https://www.zotero.org/groups/6428513/micb_475_t10
 ### Other discussion points?
 
 
-## Team Meeting 3 Minutes 
+## Team Meeting #3 March 2nd, 2026 Minutes 
 
 ### Proposal Feedback Discussion 
 - resubmit mostly changing the order of things in the introduction, the content is not necessarily wrong it just needs to be rearranged. 
