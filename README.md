@@ -147,13 +147,13 @@ Zotero Group: https://www.zotero.org/groups/6428513/micb_475_t10
 - After 23rd, start working on the slidedeck after discussing the bigger picture story and the general figures
 - On the 30th, make revisions and tweak further. 
 
-## Team Meeting #4 March 10th, 2026: Agenda
+## Team Meeting #4 March 9th, 2026: Agenda
 1. Discuss any thoughts on proposal revisions (due tonight). If necessary address any remaining edits. 
 2. Discuss Aim 1 (R loop) results and preliminary visuals. Which variables do we want to discuss for downstream analysis? What visuals would be valuable to show from these data? 
 3. Discuss updates on beta diversity calculations. 
 4. Discuss updates on data analysis timeline and when we need to start aim 3 and 4 to be done by March 23rd. 
 
-## Team Meeting #4 March 10th, 2026: Minutes 
+## Team Meeting #4 March 9th, 2026: Minutes 
 
 
 
