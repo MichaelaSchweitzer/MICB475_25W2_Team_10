@@ -154,7 +154,19 @@ Zotero Group: https://www.zotero.org/groups/6428513/micb_475_t10
 4. Discuss updates on data analysis timeline and when we need to start aim 3 and 4 to be done by March 23rd. 
 
 ## Team Meeting #4 March 9th, 2026: Minutes 
-
+- Proposal revisions looking good
+  - Concern: not being able to find information in the source that is written in the text -> something to be very aware of in the future
+- Aim 1:
+  - Ran the for loop on every single variable!
+  - Got alpha diversity metrics for everything and significance for the Shannon scores
+  - Most significant variable: method they used to catch the fish
+    - Maybe could control for depth because the method used might depend on the depth
+  - Month was significant for the guts
+  - Do we think it's worth continuing to go with skin? Yes, probably worth it to do beta diversity.
+  - Maybe we need to look into what midgut and hindgut actually are. 
+- Aim 2:
+  - Do weighted unifrac.
+  - Do aim 2 this week, next week meet and decide on variables then do aim 3 and 4 simultaneously 
 
 
 
