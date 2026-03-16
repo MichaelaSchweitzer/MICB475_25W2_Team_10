@@ -186,10 +186,10 @@ Zotero Group: https://www.zotero.org/groups/6428513/micb_475_t10
 2. Aim 3: do all analysis 
 3. Aim 4: functional analysis
 4. Workload split:
-  Core microbiome - Mirren 
-  Indicator species - Mia, Gopika
-  Differential - Mia, Michaela 
-  Functional analysis - Phoebe, Madi
+  - Core microbiome - Mirren 
+  - Indicator species - Mia, Gopika
+  - Differential - Mia, Michaela 
+  - Functional analysis - Phoebe, Madi
   (Differential and functional analysis need more literature review)
 
   
