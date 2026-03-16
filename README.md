@@ -180,5 +180,19 @@ Zotero Group: https://www.zotero.org/groups/6428513/micb_475_t10
    - How do we want to divide up the workload this week?
 
 ## Team Meeting #5 March 15th, 2026: Minutes
+1. Alpha and beta diversity results:
+- continue with Aim 3 based on just alpha diversity significance results, mostly gill and gut (leave skin).
+- Troubleshoot code for gill for beta diversity (potentially remove NAs and try again)
+2. Aim 3: do all analysis 
+3. Aim 4: functional analysis
+4. Workload split:
+  Core microbiome - Mirren 
+  Indicator species - Mia, Gopika
+  Differential - Mia, Michaela 
+  Functional analysis - Phoebe, Madi
+  (Differential and functional analysis need more literature review)
+
+  
+  
 
 
