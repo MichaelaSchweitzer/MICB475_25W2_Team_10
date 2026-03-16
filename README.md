@@ -166,7 +166,18 @@ Zotero Group: https://www.zotero.org/groups/6428513/micb_475_t10
   - Maybe we need to look into what midgut and hindgut actually are. 
 - Aim 2:
   - Do weighted unifrac.
-  - Do aim 2 this week, next week meet and decide on variables then do aim 3 and 4 simultaneously 
+  - Do aim 2 this week, next week meet and decide on variables then do aim 3 and 4 simultaneously
+
+## Team Meeting #5 March 15th, 2026: Agenda
+1. Discuss alpha and beta diversity results together.
+   - Not much significance for beta diversity (only 2 variables in the midgut).
+   - Aim 2: No data coming up for the gill. 
+2. Discuss how we want to proceed for aims 3 and 4:
+   - Which variables do we want to retain? Could perhaps keep the ones that are significant in alpha diversity only (instead of looking at both) since that would give us more to analyze
+   - Which tissues do we want to retain? Worth it to keep going with the gill?
+   - Aim 3: Which analysis do we want to do? Core microbiome, indicator species, differential abundance
+   - Aim 4: Still good with doing functional analysis?
+   - How do we want to divide up the workload this week?
 
 
 
