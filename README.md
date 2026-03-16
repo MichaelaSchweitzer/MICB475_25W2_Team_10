@@ -174,7 +174,7 @@ Zotero Group: https://www.zotero.org/groups/6428513/micb_475_t10
    - Aim 2: No data coming up for the gill. 
 2. Discuss how we want to proceed for aims 3 and 4:
    - Which variables do we want to retain? Could perhaps keep the ones that are significant in alpha diversity only (instead of looking at both) since that would give us more to analyze
-   - Which tissues do we want to retain? Worth it to keep going with the gill?
+   - Which tissues do we want to retain? Worth it to keep going with the skin?
    - Aim 3: Which analysis do we want to do? Core microbiome, indicator species, differential abundance
    - Aim 4: Still good with doing functional analysis?
    - How do we want to divide up the workload this week?
