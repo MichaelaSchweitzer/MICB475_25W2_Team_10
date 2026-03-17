@@ -166,12 +166,31 @@ for (v in vars) {
   return(results)
 }
 
+# Count number of NAs per sample (only for aim2 variables)
+gill_div_num$na_count <- rowSums(is.na(gill_div_num[, aim2_vars]))
+
+# Keep samples with fewer than a threshold 
+threshold <- length(aim2_vars) * 0.5
+
+gill_div_num_clean <- gill_div_num[gill_div_num$na_count <= threshold, ]
+
+# Drop helper column
+gill_div_num_clean$na_count <- NULL
+
+# Also prune phyloseq object to match
+gill_phyloseq_object_clean <- prune_samples( gill_div_num_clean$SampleID,gill_phyloseq_object )
+  
 #### Run loop for each body site ####
 skin_beta_results <- run_beta_loop(skin_div_num, skin_phyloseq_object, aim2_vars, num_vars)
 hindgut_beta_results <- run_beta_loop(hindgut_div_num, hindgut_phyloseq_object, aim2_vars, num_vars)
 midgut_beta_results <- run_beta_loop(midgut_div_num, midgut_phyloseq_object, aim2_vars, num_vars)
-gill_beta_results <- run_beta_loop(gill_div_num, gill_phyloseq_object, aim2_vars, num_vars)
+gill_beta_results <- run_beta_loop(gill_div_num_clean, gill_phyloseq_object_clean, aim2_vars, num_vars)
 
+#### View results ####
+skin_beta_results
+hindgut_beta_results
+midgut_beta_results
+gill_beta_results
 
 #### Save results ####
 save(skin_beta_results, hindgut_beta_results, midgut_beta_results, gill_beta_results,
@@ -181,5 +200,9 @@ write.csv(skin_beta_results, "skin_weighted_unifrac_results.csv", row.names = FA
 write.csv(hindgut_beta_results, "hindgut_weighted_unifrac_results.csv", row.names = FALSE)
 write.csv(midgut_beta_results, "midgut_weighted_unifrac_results.csv", row.names = FALSE)
 write.csv(gill_beta_results, "gill_weighted_unifrac_results.csv", row.names = FALSE)
+
+
+
+
 
 
