@@ -188,9 +188,9 @@ Zotero Group: https://www.zotero.org/groups/6428513/micb_475_t10
 4. Workload split:
   - Core microbiome - Mirren 
   - Indicator species - Mia, Gopika
-  - Differential - Mia, Michaela 
+  - DeSeq - Mia, Michaela 
   - Functional analysis - Phoebe, Madi
-  (Differential and functional analysis need more literature review)
+ 
 
   
   
