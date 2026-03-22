@@ -3,11 +3,12 @@
 # log onto server with team 10 credentials (swap * for IP, enter password when prompted) 
 ssh root@*
 
+
 # march 21st, 2026, madi 
 # picrust analysis (server part, following module 19 tutorial) 
+
 # move to folder for fish microbiome data processing
 cd /data/fish_microbiome
-
 
 # filter out features with fewer than 5 counts to speed up analysis 
 qiime feature-table filter-features \
@@ -39,3 +40,29 @@ picrust2_pipeline.py \
 # swap * for IP, enter password when prompted
 scp -r root@*:/data/fish_microbiome/picrust_out .  
 # proceed to R analysis (aim_4_functional.R)
+
+
+
+# march 22nd, 2026, madi 
+# picrust output from 21st does not have all files, may have timed out
+# trying as background job instead
+
+# start session 
+screen -S picrust2
+
+# switch to picrust environment 
+conda deactivate
+conda activate picrust2
+
+# run picrust
+picrust2_pipeline.py \
+   -s picrust/dna-sequences.fasta \
+   -i picrust/feature-table.biom \
+   -o picrust_out-2
+
+# check session (as necessary) 
+screen -ls
+
+# resume session (as necessary) 
+screen -r picrust2
+
