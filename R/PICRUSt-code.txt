@@ -37,5 +37,5 @@ picrust2_pipeline.py \
 # export file (in terminal not connected to server)
 # navigate to github clone directory 
 # swap * for IP, enter password when prompted
-scp root@*:/data/fish_microbiome/picrust_out .  
+scp -r root@*:/data/fish_microbiome/picrust_out .  
 # proceed to R analysis (aim_4_functional.R)
