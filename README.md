@@ -197,3 +197,11 @@ Zotero Group: https://www.zotero.org/groups/6428513/micb_475_t10
 3. Ideas for visualizations 
 4. Anything else we should try to analyze?
 5. Link to data: https://ubcca-my.sharepoint.com/:p:/g/personal/micswtz_student_ubc_ca/IQBFAfrDsdTMRID4TDo8UCDqAWjcFGBU4sCRmrObPhNDJbE?e=neRkHK
+
+## Team Meeting #6 March 23rd, 2026: Minutes 
+1. Presentation edits
+   - less decimals for results (scientific notation?)
+   - write out variable names fully
+   - table preferred over diagrams for alpha diversity results
+2. Direction for future work
+   - filter data to keep rod and reel and rerun alpha/beta diversity, send results to Hans and decide analyses from there
