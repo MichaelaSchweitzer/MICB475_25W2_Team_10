@@ -79,6 +79,12 @@ rownames(skin_metadata_dataframe)<- skin_metadata$'#SampleID'
 skin_metadata_phylo <- sample_data(skin_metadata_dataframe)
 class(skin_metadata_phylo)
 
+# Saving formatted metadata
+write.csv(gill_metadata_phylo, "gillmetadata.csv", row.names = FALSE)
+write.csv(hindgut_metadata_phylo, "hindgutmetadata.csv", row.names = FALSE)
+write.csv(midgut_metadata_phylo, "midgutmetadata.csv", row.names = FALSE)
+write.csv(skin_metadata_phylo, "skinmetadata.csv", row.names = FALSE)
+
 # Formatting the taxonomy file
 fish_taxonomy_matrix <- fish_taxonomy %>% select(-Confidence)%>%
   separate(col=Taxon, sep="; "
