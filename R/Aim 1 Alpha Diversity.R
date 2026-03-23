@@ -5,11 +5,16 @@
   # install.packages("BiocManager")
 # BiocManager::install("phyloseq")
 
+# Install ggpubr
+install.packages("ggpubr")
+
 #### Load required libraries. Run each time a new session is opened.####
 library(phyloseq)
 library(ape)
 library(tidyverse)
 library(vegan)
+library(ggplot2)
+library(ggpubr)
 
 #### CREATING THE PHYLOSEQ OBJECT (March 1st and March 2nd, 2026 by Michaela) ####
 
@@ -280,21 +285,230 @@ for (v in vars) {
 # save alpha diversity results and loop results as object 
 save(skin_div_num, midgut_div_num, hindgut_div_num, gill_div_num, skin_results, midgut_results, hindgut_results, gill_results, file = "alpha_loop_results.RData") 
 
+write.csv(skin_results, "skin_alpha_results.csv", row.names = FALSE)
+write.csv(hindgut_results, "hindgut_alpha_results.csv", row.names = FALSE)
+write.csv(midgut_results, "midgut_alpha_results.csv", row.names = FALSE)
+write.csv(gill_results, "gill_alpha_results.csv", row.names = FALSE)
+
 # load results 
 load("alpha_loop_results.RData")
 
-library(ggplot2)
-
 # example visualization for categorical data (analyzed by Kruskal-Wallis)
 kw <- ggplot(gill_div_num) + geom_boxplot(aes(y = Shannon, x = method_gear))
-kw
 
 # example visualization for continuous data (analyzed by Spearman)
-sp <- ggplot(gill_div_num, aes(x = gi_cm, y = Shannon)) + geom_point() + geom_smooth()
-sp
+sp <- ggplot(gill_div_num, aes(x = gi_cm, y = Shannon)) + geom_point() + geom_smooth(method = lm)
 
+# Making plots for alpha diversity (March 22nd, Michaela)
 
+# Plot to count significant variables
+skin_wo_method <- skin_results[,-3] %>%
+                  setNames(c("variable", "Skin"))
+gill_wo_method <- gill_results[,-3] %>%
+                  setNames(c("variable", "Gill"))
+midgut_wo_method <- midgut_results[,-3] %>%
+                    setNames(c("variable", "Midgut")) 
+hindgut_wo_method <- hindgut_results[,-3] %>%
+                     setNames(c("variable", "Hindgut"))
 
+merged_table <- list(skin_wo_method, gill_wo_method, midgut_wo_method, hindgut_wo_method) %>%
+                reduce(full_join, by = "variable")
 
+write.csv(merged_table, "alpha_div_pvalues.csv", row.names = FALSE)
 
+# Bubble plot to show relative p-values 
+bubble_plot_data <- merged_table %>%
+                      pivot_longer(cols = c("Skin", "Gill", "Midgut", "Hindgut"), names_to = "dataset", values_to = "p_value") %>%
+                      mutate(significant = p_value < 0.05, minusLogP = -log10(p_value))
+
+bubble_plot <- ggplot(bubble_plot_data, aes(x = dataset, y = variable, size = minusLogP, color = minusLogP)) +
+               geom_point(alpha = 0.7) +
+               scale_size(range = c(3, 12)) +                # adjust bubble sizes
+               scale_color_gradient(low = "lightblue", high = "darkblue") +  # gradient
+               theme_minimal() +
+               labs(
+               x = "Tissue",
+               y = "Variable",
+               size = "-log10(p-value)",
+               color = "-log10(p-value)"
+               )
+bubble_plot
+
+ggsave(file = "bubble_plot.png",
+              , plot = bubble_plot
+              , height=10, width=6)
+
+# Within variable alpha diversity plots
+# Gill, dist_to_dorsal_cm
+gill_dist_dorsal <- ggplot(gill_div_num, aes(x = dist_to_dorsal_cm, y = Shannon)) + 
+                    geom_point() + 
+                    geom_smooth(method = "lm") + 
+                    xlab("Distance to Dorsal (cm)") + 
+                    ylab("Shannon Index") +
+                    stat_cor(method = "spearman", label.x = 30) 
+gill_dist_dorsal 
+
+# Gill, fl_cm
+gill_fl_cm <- ggplot(gill_div_num, aes(x = fl_cm, y = Shannon)) + 
+              geom_point() + 
+              geom_smooth(method = "lm") +
+              xlab("Fork Length (cm)") + 
+              ylab("Shannon Index") + 
+              stat_cor(method = "spearman", label.x = 80) 
+gill_fl_cm 
+
+# Gill, gape_cm
+gill_gape_cm <- ggplot(gill_div_num, aes(x = gape_cm, y = Shannon)) + 
+                geom_point() + 
+                geom_smooth(method = "lm") + 
+                xlab("Gape Length (cm)") + 
+                ylab("Shannon Index") + 
+                stat_cor(method = "spearman", label.x = 10) 
+gill_gape_cm 
+
+# Gill, gi_cm 
+gill_gi_cm <- ggplot(gill_div_num, aes(x = gi_cm, y = Shannon)) + 
+              geom_point() + 
+              geom_smooth(method = "lm") + 
+              xlab("Length of GI Tract (cm)") +
+              ylab("Shannon Index") +
+              stat_cor(method = "spearman", label.x = 45) 
+gill_gi_cm 
+
+# Gill, host_height 
+gill_host_height <- ggplot(gill_div_num, aes(x = host_height, y = Shannon)) +
+                    geom_point() + 
+                    geom_smooth(method = "lm") + 
+                    xlab("Host Height (cm)") + 
+                    ylab("Shannon Index") +
+                    stat_cor(method = "spearman", label.x = 80) 
+gill_host_height
+
+# Gill, mass_g 
+gill_mass_g <- ggplot(gill_div_num, aes(x = mass_g, y = Shannon)) + 
+               geom_point() + 
+               geom_smooth(method = "lm") + 
+               xlab("Mass (g)") +
+               ylab("Shannon Index") +
+               stat_cor(method = "spearman", label.x = 20000) 
+gill_mass_g
+
+# Gill, method_gear 
+gill_method_gear <- ggplot(gill_div_num) + 
+                    geom_boxplot(aes(y = Shannon, x = method_gear)) +
+                    xlab("Method Gear") +
+                    ylab("Shannon Index")
+gill_method_gear
+
+# Gill, tl_cm 
+gill_tail_cm <- ggplot(gill_div_num, aes(x = tl_cm, y = Shannon)) + 
+                geom_point() + 
+                geom_smooth(method = "lm") + 
+                xlab("Tail Length (cm)") +
+                ylab("Shannon Index") +
+                stat_cor(method = "spearman", label.x = 80) 
+gill_tail_cm
+
+# Midgut, method_gear 
+midgut_method_gear <- ggplot(midgut_div_num) + 
+                      geom_boxplot(aes(y = Shannon, x = method_gear)) +
+                      xlab("Method Gear") +
+                      ylab("Shannon Index")
+midgut_method_gear 
+
+# Midgut, month 
+midgut_div_num$month <- factor(midgut_div_num$month)
+midgut_month <- ggplot(midgut_div_num) + 
+                geom_boxplot(aes(y = Shannon, x = month)) +
+                xlab("Month") +
+                ylab("Shannon Index")
+midgut_month
+
+# Hindgut, host BMI 
+hindgut_host_bmi <- ggplot(hindgut_div_num, aes(x = host_body_mass_index, y = Shannon)) + 
+                    geom_point() + 
+                    geom_smooth(method = "lm") + 
+                    xlab("Host Body Mass Index") +
+                    ylab("Shannon Index") + 
+                    stat_cor(method = "spearman", label.x = 1.7) 
+hindgut_host_bmi
+
+# Hindgut, method_gear 
+hindgut_method_gear <- ggplot(hindgut_div_num) + 
+                       geom_boxplot(aes(y = Shannon, x = method_gear)) +
+                       xlab("Method Gear") +
+                       ylab("Shannon Index")
+hindgut_method_gear 
+
+# Hindgut, month 
+hindgut_div_num$month <- factor(hindgut_div_num$month)
+hindgut_month <- ggplot(hindgut_div_num) + 
+                geom_boxplot(aes(y = Shannon, x = month)) +
+                xlab("Month") +
+                ylab("Shannon Index")
+hindgut_month
+
+# Hindgut, swim_mode
+hindgut_swim_mode <- ggplot(hindgut_div_num) + 
+                     geom_boxplot(aes(y = Shannon, x = swim_mode)) +
+                     xlab("Swim Mode") +
+                     ylab("Shannon Index")
+hindgut_swim_mode
+
+# Saving plots
+ggsave(file = "gilldisttodorsal.png",
+       , plot = gill_dist_dorsal
+       , height=6, width=10)
+
+ggsave(file = "gillflcm.png",
+       , plot = gill_fl_cm
+       , height=6, width=10)
+
+ggsave(file = "gillgapecm.png",
+       , plot = gill_gape_cm
+       , height=6, width=10)
+
+ggsave(file = "gillgicm.png",
+       , plot = gill_gi_cm
+       , height=6, width=10)
+
+ggsave(file = "gillhostheight.png",
+       , plot = gill_host_height
+       , height=6, width=10)
+
+ggsave(file = "gillmassg.png",
+       , plot = gill_mass_g
+       , height=6, width=10)
+
+ggsave(file = "gillmethodgear.png",
+       , plot = gill_method_gear
+       , height=6, width=10)
+
+ggsave(file = "gilltlcm.png",
+       , plot = gill_tail_cm
+       , height=6, width=10)
+
+ggsave(file = "midgutmethodgear.png",
+       , plot = midgut_method_gear
+       , height=6, width=10)
+
+ggsave(file = "midgutmonth.png",
+       , plot = midgut_month
+       , height=6, width=10)
+
+ggsave(file = "hindgutbmi.png",
+       , plot = hindgut_host_bmi
+       , height=6, width=10)
+
+ggsave(file = "hindgutmethodgear.png",
+       , plot = hindgut_method_gear
+       , height=6, width=10)
+
+ggsave(file = "hindgutmonth.png",
+       , plot = hindgut_month
+       , height=6, width=10)
+
+ggsave(file = "hindgutswimmode.png",
+       , plot = hindgut_swim_mode
+       , height=6, width=10)
 
