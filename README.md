@@ -191,8 +191,9 @@ Zotero Group: https://www.zotero.org/groups/6428513/micb_475_t10
   - DeSeq - Mia, Michaela 
   - Functional analysis - Phoebe, Madi
  
-
-  
-  
-
-
+## Team Meeting #6 March 23rd, 2026: Agenda 
+1. Go through data collected thus far and visualizations (everything done except core microbiome - done tomorrow!)
+2. Slide distributions
+3. Ideas for visualizations 
+4. Anything else we should try to analyze?
+5. Link to data: https://ubcca-my.sharepoint.com/:p:/r/personal/micswtz_student_ubc_ca/Documents/UBC/Fifth%20Year/Term%202/MICB%20475/MICB%20475%20Project%20Updates%20Mar%2023.pptx?d=wc3fa0145d4b144cc80f84c3a3c5020ea&csf=1&web=1&e=Z0qbs0 
