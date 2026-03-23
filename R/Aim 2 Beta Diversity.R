@@ -201,8 +201,41 @@ write.csv(hindgut_beta_results, "hindgut_weighted_unifrac_results.csv", row.name
 write.csv(midgut_beta_results, "midgut_weighted_unifrac_results.csv", row.names = FALSE)
 write.csv(gill_beta_results, "gill_weighted_unifrac_results.csv", row.names = FALSE)
 
+# Plotting Data (March 22nd, Michaela)
 
+# Making a merged table with just Adonis R^2 values 
+skin_R2 <- skin_beta_results%>%
+           select(-c(2, 4, 5, 6)) %>%
+           setNames(c("variable", "Skin"))
+gill_R2 <- gill_beta_results%>%
+           select(-c(2, 4, 5, 6)) %>%
+           setNames(c("variable", "Gill"))
+midgut_R2 <- midgut_beta_results%>%
+             select(-c(2, 4, 5, 6)) %>%
+             setNames(c("variable", "Midgut"))
+hindgut_R2 <- hindgut_beta_results%>%
+              select(-c(2, 4, 5, 6)) %>%
+              setNames(c("variable", "Hindgut"))
 
+merged_table_beta <- list(skin_R2, gill_R2, midgut_R2, hindgut_R2) %>%
+  reduce(full_join, by = "variable")
 
+merged_table_beta_long <- merged_table_beta %>% 
+                          pivot_longer(
+                          cols = c(`Skin`, `Gill`, `Midgut`, `Hindgut`),
+                          names_to = "Tissue",
+                          values_to = "R2_Value") 
+merged_table_beta_long
 
+# Plotting the graph 
+R2_values <- ggplot(merged_table_beta_long, aes(x = variable, y = R2_Value, fill = Tissue)) + 
+             geom_bar(stat = "identity", position = "dodge") +
+             theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
+             ylab("Adonis R^2") +
+             xlab("Variable")
+R2_values
 
+# Saving the graph 
+ggsave(file = "betadiv.png", 
+      , plot = R2_values, 
+      , height=8, width=20)
