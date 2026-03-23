@@ -2,7 +2,7 @@
 
 # Install phyloseq package before beginning, if required.
 # if (!require("BiocManager", quietly = TRUE))
-  # install.packages("BiocManager")
+# install.packages("BiocManager")
 # BiocManager::install("phyloseq")
 
 # Install ggpubr
@@ -16,7 +16,7 @@ library(vegan)
 library(ggplot2)
 library(ggpubr)
 
-#### CREATING THE PHYLOSEQ OBJECT (March 1st and March 2nd, 2026 by Michaela) ####
+#### CREATING THE PHYLOSEQ OBJECT (March 1st and March 2nd and March 23rd, 2026 by Michaela) ####
 
 #### Loading in the data files. ####
 # Metadata
@@ -48,6 +48,19 @@ midgut_metadata <- filter(fish_metadata, sample_type == "midgut")
 # Skin 
 skin_metadata <- filter(fish_metadata, sample_type == "skin")
 
+### Filtering by method_gear to only keep samples caught by rod and reel ###
+# Gill 
+gill_metadata_rod_only <- filter(gill_metadata, method_gear == "rod and reel")
+
+# Hindgut 
+hindgut_metadata_rod_only <- filter(hindgut_metadata, method_gear == "rod and reel")
+
+# Midgut
+midgut_metadata_rod_only <- filter(midgut_metadata, method_gear == "rod and reel")
+
+# Skin 
+skin_metadata_rod_only <- filter(skin_metadata, method_gear == "rod and reel")
+
 #### Formatting the data files ####
 # Converting the OTU Table into a matrix
 otu_matrix <- as.matrix(fish_otu[,-1])
@@ -55,35 +68,35 @@ rownames(otu_matrix) <- fish_otu$`#OTU ID`
 fish_OTU_matrix <- otu_table(otu_matrix, taxa_are_rows = TRUE) 
 class(fish_OTU_matrix)
 
-# Formatting the gill metadata 
-gill_metadata_dataframe <- as.data.frame(gill_metadata[,-1])
-rownames(gill_metadata_dataframe)<- gill_metadata$'#SampleID'
-gill_metadata_phylo <- sample_data(gill_metadata_dataframe)
-class(gill_metadata_phylo)
+# Formatting the gill metadata with rod and reel only 
+gill_metadata_rodonly_df <- as.data.frame(gill_metadata_rod_only[,-1])
+rownames(gill_metadata_rodonly_df)<- gill_metadata_rod_only$'#SampleID'
+gill_metadata_phylo_rodonly <- sample_data(gill_metadata_rodonly_df)
+class(gill_metadata_phylo_rodonly)
 
-# Formatting the hindgut metadata 
-hindgut_metadata_dataframe <- as.data.frame(hindgut_metadata[,-1])
-rownames(hindgut_metadata_dataframe)<- hindgut_metadata$'#SampleID'
-hindgut_metadata_phylo <- sample_data(hindgut_metadata_dataframe)
-class(hindgut_metadata_phylo)
+# Formatting the hindgut metadata with rod and reel only 
+hindgut_metadata_rodonly_df <- as.data.frame(hindgut_metadata_rod_only[,-1])
+rownames(hindgut_metadata_rodonly_df)<- hindgut_metadata_rod_only$'#SampleID'
+hindgut_metadata_phylo_rodonly <- sample_data(hindgut_metadata_rodonly_df)
+class(hindgut_metadata_phylo_rodonly)
 
-# Formatting the midgut metadata 
-midgut_metadata_dataframe <- as.data.frame(midgut_metadata[,-1])
-rownames(midgut_metadata_dataframe)<- midgut_metadata$'#SampleID'
-midgut_metadata_phylo <- sample_data(midgut_metadata_dataframe)
-class(midgut_metadata_phylo)
+# Formatting the midgut metadata with rod and reel only
+midgut_metadata_rodonly_df <- as.data.frame(midgut_metadata_rod_only[,-1])
+rownames(midgut_metadata_rodonly_df)<- midgut_metadata_rod_only$'#SampleID'
+midgut_metadata_phylo_rodonly <- sample_data(midgut_metadata_rodonly_df)
+class(midgut_metadata_phylo_rodonly)
 
-# Formatting the skin metadata 
-skin_metadata_dataframe <- as.data.frame(skin_metadata[,-1])
-rownames(skin_metadata_dataframe)<- skin_metadata$'#SampleID'
-skin_metadata_phylo <- sample_data(skin_metadata_dataframe)
-class(skin_metadata_phylo)
+# Formatting the skin metadata with rod and reel only
+skin_metadata_rodonly_df <- as.data.frame(skin_metadata_rod_only[,-1])
+rownames(skin_metadata_rodonly_df)<- skin_metadata_rod_only$'#SampleID'
+skin_metadata_phylo_rodonly <- sample_data(skin_metadata_rodonly_df)
+class(skin_metadata_phylo_rodonly)
 
 # Saving formatted metadata
-write.csv(gill_metadata_phylo, "gillmetadata.csv", row.names = FALSE)
-write.csv(hindgut_metadata_phylo, "hindgutmetadata.csv", row.names = FALSE)
-write.csv(midgut_metadata_phylo, "midgutmetadata.csv", row.names = FALSE)
-write.csv(skin_metadata_phylo, "skinmetadata.csv", row.names = FALSE)
+write.csv(skin_metadata_phylo_rodonly, "skinmetadatarodonly.csv", row.names = FALSE)
+write.csv(gill_metadata_phylo_rodonly, "gillmetadatarodonly.csv", row.names = FALSE)
+write.csv(midgut_metadata_phylo_rodonly, "midgutmetadatarodonly.csv", row.names = FALSE)
+write.csv(hindgut_metadata_phylo_rodonly, "hindgutmetadatarodonly.csv", row.names = FALSE)
 
 # Formatting the taxonomy file
 fish_taxonomy_matrix <- fish_taxonomy %>% select(-Confidence)%>%
@@ -96,63 +109,59 @@ fish_taxa_table <- tax_table(fish_taxonomy_matrix)
 class(fish_taxa_table)
 
 #### Making phyloseq objects for each body site #### 
-# Gill
-gill_phyloseq_object <- phyloseq(fish_OTU_matrix, gill_metadata_phylo, fish_taxa_table, fish_tree)
+# Gill rod and reel only 
+gill_rodonly_phyloseq_object <- phyloseq(fish_OTU_matrix, gill_metadata_phylo_rodonly, fish_taxa_table, fish_tree) 
 
-# Hindgut
-hindgut_phyloseq_object <- phyloseq(fish_OTU_matrix, hindgut_metadata_phylo, fish_taxa_table, fish_tree)
+# Hindgut rod and reel only 
+hindgut_rodonly_phyloseq_object <- phyloseq(fish_OTU_matrix, hindgut_metadata_phylo_rodonly, fish_taxa_table, fish_tree)
 
-# Midgut 
-midgut_phyloseq_object <- phyloseq(fish_OTU_matrix, midgut_metadata_phylo, fish_taxa_table, fish_tree)
+# Midgut rod and reel only 
+midgut_rodonly_phyloseq_object <- phyloseq(fish_OTU_matrix, midgut_metadata_phylo_rodonly, fish_taxa_table, fish_tree)
 
-# Skin 
-skin_phyloseq_object <- phyloseq(fish_OTU_matrix, skin_metadata_phylo, fish_taxa_table, fish_tree)
+# Skin rod and reel only 
+skin_rodonly_phyloseq_object <- phyloseq(fish_OTU_matrix, skin_metadata_phylo_rodonly, fish_taxa_table, fish_tree)
 
 #### Visualizing componenents of the phyloseq objects #### 
-# Gill 
-otu_table(gill_phyloseq_object)
-sample_data(gill_phyloseq_object)
-tax_table(gill_phyloseq_object)
-phy_tree(gill_phyloseq_object)
+# Gill rod only 
+otu_table(gill_rodonly_phyloseq_object)
+sample_data(gill_rodonly_phyloseq_object)
+tax_table(gill_rodonly_phyloseq_object)
+phy_tree(gill_rodonly_phyloseq_object)
 
+# Hindgut rod only 
+otu_table(hindgut_rodonly_phyloseq_object)
+sample_data(hindgut_rodonly_phyloseq_object)
+tax_table(hindgut_rodonly_phyloseq_object)
+phy_tree(hindgut_rodonly_phyloseq_object)
 
-# Hindgut
-otu_table(hindgut_phyloseq_object)
-sample_data(hindgut_phyloseq_object)
-tax_table(hindgut_phyloseq_object)
-phy_tree(hindgut_phyloseq_object)
+# Midgut rod only 
+otu_table(midgut_rodonly_phyloseq_object)
+sample_data(midgut_rodonly_phyloseq_object)
+tax_table(midgut_rodonly_phyloseq_object)
+phy_tree(midgut_rodonly_phyloseq_object)
 
-# Midgut 
-otu_table(midgut_phyloseq_object)
-sample_data(midgut_phyloseq_object)
-tax_table(midgut_phyloseq_object)
-phy_tree(midgut_phyloseq_object)
-
-# Skin 
-otu_table(skin_phyloseq_object)
-sample_data(skin_phyloseq_object)
-tax_table(skin_phyloseq_object)
-phy_tree(skin_phyloseq_object)
-
+# Skin rod only
+otu_table(skin_rodonly_phyloseq_object)
+sample_data(skin_rodonly_phyloseq_object)
+tax_table(skin_rodonly_phyloseq_object)
+phy_tree(skin_rodonly_phyloseq_object)
 
 # Saving Objects (Can now just load these instead of running all of the above code)
-save(skin_phyloseq_object, midgut_phyloseq_object, hindgut_phyloseq_object, gill_phyloseq_object, file = "all_phyloseq_objects.RData") 
+save(skin_rodonly_phyloseq_object, midgut_rodonly_phyloseq_object, hindgut_rodonly_phyloseq_object, gill_rodonly_phyloseq_object, file = "all_phyloseq_objects_rodonly.RData")
 
-load("all_phyloseq_objects.RData")
+load("all_phyloseq_objects_rodonly.RData")
 
-
-#Get skin alpha diversity metrics 
-alpha_div_skin <- estimate_richness(skin_phyloseq_object, measures = "shannon")
-alpha_div_hindgut <- estimate_richness(hindgut_phyloseq_object, measures = "shannon")
-alpha_div_midgut <- estimate_richness(midgut_phyloseq_object, measures = "shannon")
-alpha_div_gill <- estimate_richness(gill_phyloseq_object, measures = "shannon")
+#Get alpha diversity metrics 
+alpha_div_skin <- estimate_richness(skin_rodonly_phyloseq_object, measures = "shannon")
+alpha_div_hindgut <- estimate_richness(hindgut_rodonly_phyloseq_object, measures = "shannon")
+alpha_div_midgut <- estimate_richness(midgut_rodonly_phyloseq_object, measures = "shannon")
+alpha_div_gill <- estimate_richness(gill_rodonly_phyloseq_object, measures = "shannon")
 
 #Create a dataframe containing sampledata
-skin_data <- sample_data(skin_phyloseq_object)
-hindgut_data <- sample_data(hindgut_phyloseq_object)
-midgut_data <- sample_data(midgut_phyloseq_object)
-gill_data <- sample_data(gill_phyloseq_object)
-
+skin_data <- sample_data(skin_rodonly_phyloseq_object)
+hindgut_data <- sample_data(hindgut_rodonly_phyloseq_object)
+midgut_data <- sample_data(midgut_rodonly_phyloseq_object)
+gill_data <- sample_data(gill_rodonly_phyloseq_object)
 
 #Add shannon scores to sample data 
 skin_div <- cbind(alpha_div_skin, skin_data)
@@ -177,8 +186,8 @@ gill_div_nodate[gill_div_nodate == "not applicable"] <- NA
 
 # Make a vector of all the numeric variables
 num_vars <- c("dist_to_dorsal_cm", "fl_cm", "gape_cm", "gi_cm", "host_body_mass_index",
-             "host_height", "host_height_vs_max_height_tl", "mass_g", "month", "ratio_dorsal_to_tl", "ratio_gape_to_tl", 
-             "ratio_gi_to_tl", "tl_cm")
+              "host_height", "host_height_vs_max_height_tl", "mass_g", "month", "ratio_dorsal_to_tl", "ratio_gape_to_tl", 
+              "ratio_gi_to_tl", "tl_cm")
 
 
 # For loop to make all numeric variables numeric class
@@ -202,9 +211,15 @@ for (n in num_vars) {
   midgut_div_num[[n]] <- as.numeric(midgut_div_nodate[[n]]) 
 }
 
+# Ignore method_gear variable since it is constant 
+hindgut_div_num$method_gear <- NULL
+midgut_div_num$method_gear <- NULL
+skin_div_num$method_gear <- NULL
+gill_div_num$method_gear <- NULL
+
 #Create a vector containing the names of our columns of interest
 vars <- c("dist_to_dorsal_cm", "fl_cm", "gape_cm", "gi_cm", "host_body_mass_index",
-          "host_height", "host_height_vs_max_height_tl", "mass_g", "method_gear",
+          "host_height", "host_height_vs_max_height_tl", "mass_g",
           "month", "ratio_dorsal_to_tl", "ratio_gape_to_tl", "ratio_gi_to_tl", "swim_mode",
           "swim_performance", "tl_cm")
 
@@ -300,165 +315,143 @@ write.csv(gill_results, "gill_alpha_results.csv", row.names = FALSE)
 load("alpha_loop_results.RData")
 
 # example visualization for categorical data (analyzed by Kruskal-Wallis)
-kw <- ggplot(gill_div_num) + geom_boxplot(aes(y = Shannon, x = method_gear))
+# kw <- ggplot(gill_div_num) + geom_boxplot(aes(y = Shannon, x = method_gear))
 
 # example visualization for continuous data (analyzed by Spearman)
-sp <- ggplot(gill_div_num, aes(x = gi_cm, y = Shannon)) + geom_point() + geom_smooth(method = lm)
+# sp <- ggplot(gill_div_num, aes(x = gi_cm, y = Shannon)) + geom_point() + geom_smooth(method = lm)
 
 # Making plots for alpha diversity (March 22nd, Michaela)
 
 # Plot to count significant variables
 skin_wo_method <- skin_results[,-3] %>%
-                  setNames(c("variable", "Skin"))
+  setNames(c("variable", "Skin"))
 gill_wo_method <- gill_results[,-3] %>%
-                  setNames(c("variable", "Gill"))
+  setNames(c("variable", "Gill"))
 midgut_wo_method <- midgut_results[,-3] %>%
-                    setNames(c("variable", "Midgut")) 
+  setNames(c("variable", "Midgut")) 
 hindgut_wo_method <- hindgut_results[,-3] %>%
-                     setNames(c("variable", "Hindgut"))
+  setNames(c("variable", "Hindgut"))
 
 merged_table <- list(skin_wo_method, gill_wo_method, midgut_wo_method, hindgut_wo_method) %>%
-                reduce(full_join, by = "variable")
+  reduce(full_join, by = "variable")
 
 write.csv(merged_table, "alpha_div_pvalues.csv", row.names = FALSE)
-
-# Bubble plot to show relative p-values 
-bubble_plot_data <- merged_table %>%
-                      pivot_longer(cols = c("Skin", "Gill", "Midgut", "Hindgut"), names_to = "dataset", values_to = "p_value") %>%
-                      mutate(significant = p_value < 0.05, minusLogP = -log10(p_value))
-
-bubble_plot <- ggplot(bubble_plot_data, aes(x = dataset, y = variable, size = minusLogP, color = minusLogP)) +
-               geom_point(alpha = 0.7) +
-               scale_size(range = c(3, 12)) +                # adjust bubble sizes
-               scale_color_gradient(low = "lightblue", high = "darkblue") +  # gradient
-               theme_minimal() +
-               labs(
-               x = "Tissue",
-               y = "Variable",
-               size = "-log10(p-value)",
-               color = "-log10(p-value)"
-               )
-bubble_plot
-
-ggsave(file = "bubble_plot.png",
-              , plot = bubble_plot
-              , height=10, width=6)
 
 # Within variable alpha diversity plots
 # Gill, dist_to_dorsal_cm
 gill_dist_dorsal <- ggplot(gill_div_num, aes(x = dist_to_dorsal_cm, y = Shannon)) + 
-                    geom_point() + 
-                    geom_smooth(method = "lm") + 
-                    xlab("Distance to Dorsal (cm)") + 
-                    ylab("Shannon Index") +
-                    stat_cor(method = "spearman", label.x = 30) 
+  geom_point() + 
+  geom_smooth(method = "lm") + 
+  xlab("Distance to Dorsal (cm)") + 
+  ylab("Shannon Index") +
+  stat_cor(method = "spearman", label.x = 30) 
 gill_dist_dorsal 
 
 # Gill, fl_cm
 gill_fl_cm <- ggplot(gill_div_num, aes(x = fl_cm, y = Shannon)) + 
-              geom_point() + 
-              geom_smooth(method = "lm") +
-              xlab("Fork Length (cm)") + 
-              ylab("Shannon Index") + 
-              stat_cor(method = "spearman", label.x = 80) 
+  geom_point() + 
+  geom_smooth(method = "lm") +
+  xlab("Fork Length (cm)") + 
+  ylab("Shannon Index") + 
+  stat_cor(method = "spearman", label.x = 80) 
 gill_fl_cm 
 
 # Gill, gape_cm
 gill_gape_cm <- ggplot(gill_div_num, aes(x = gape_cm, y = Shannon)) + 
-                geom_point() + 
-                geom_smooth(method = "lm") + 
-                xlab("Gape Length (cm)") + 
-                ylab("Shannon Index") + 
-                stat_cor(method = "spearman", label.x = 10) 
+  geom_point() + 
+  geom_smooth(method = "lm") + 
+  xlab("Gape Length (cm)") + 
+  ylab("Shannon Index") + 
+  stat_cor(method = "spearman", label.x = 10) 
 gill_gape_cm 
 
 # Gill, gi_cm 
 gill_gi_cm <- ggplot(gill_div_num, aes(x = gi_cm, y = Shannon)) + 
-              geom_point() + 
-              geom_smooth(method = "lm") + 
-              xlab("Length of GI Tract (cm)") +
-              ylab("Shannon Index") +
-              stat_cor(method = "spearman", label.x = 45) 
+  geom_point() + 
+  geom_smooth(method = "lm") + 
+  xlab("Length of GI Tract (cm)") +
+  ylab("Shannon Index") +
+  stat_cor(method = "spearman", label.x = 45) 
 gill_gi_cm 
 
 # Gill, host_height 
 gill_host_height <- ggplot(gill_div_num, aes(x = host_height, y = Shannon)) +
-                    geom_point() + 
-                    geom_smooth(method = "lm") + 
-                    xlab("Host Height (cm)") + 
-                    ylab("Shannon Index") +
-                    stat_cor(method = "spearman", label.x = 80) 
+  geom_point() + 
+  geom_smooth(method = "lm") + 
+  xlab("Host Height (cm)") + 
+  ylab("Shannon Index") +
+  stat_cor(method = "spearman", label.x = 80) 
 gill_host_height
 
 # Gill, mass_g 
 gill_mass_g <- ggplot(gill_div_num, aes(x = mass_g, y = Shannon)) + 
-               geom_point() + 
-               geom_smooth(method = "lm") + 
-               xlab("Mass (g)") +
-               ylab("Shannon Index") +
-               stat_cor(method = "spearman", label.x = 20000) 
+  geom_point() + 
+  geom_smooth(method = "lm") + 
+  xlab("Mass (g)") +
+  ylab("Shannon Index") +
+  stat_cor(method = "spearman", label.x = 20000) 
 gill_mass_g
 
 # Gill, method_gear 
 gill_method_gear <- ggplot(gill_div_num) + 
-                    geom_boxplot(aes(y = Shannon, x = method_gear)) +
-                    xlab("Method Gear") +
-                    ylab("Shannon Index")
+  geom_boxplot(aes(y = Shannon, x = method_gear)) +
+  xlab("Method Gear") +
+  ylab("Shannon Index")
 gill_method_gear
 
 # Gill, tl_cm 
 gill_tail_cm <- ggplot(gill_div_num, aes(x = tl_cm, y = Shannon)) + 
-                geom_point() + 
-                geom_smooth(method = "lm") + 
-                xlab("Tail Length (cm)") +
-                ylab("Shannon Index") +
-                stat_cor(method = "spearman", label.x = 80) 
+  geom_point() + 
+  geom_smooth(method = "lm") + 
+  xlab("Tail Length (cm)") +
+  ylab("Shannon Index") +
+  stat_cor(method = "spearman", label.x = 80) 
 gill_tail_cm
 
 # Midgut, method_gear 
 midgut_method_gear <- ggplot(midgut_div_num) + 
-                      geom_boxplot(aes(y = Shannon, x = method_gear)) +
-                      xlab("Method Gear") +
-                      ylab("Shannon Index")
+  geom_boxplot(aes(y = Shannon, x = method_gear)) +
+  xlab("Method Gear") +
+  ylab("Shannon Index")
 midgut_method_gear 
 
 # Midgut, month 
 midgut_div_num$month <- factor(midgut_div_num$month)
 midgut_month <- ggplot(midgut_div_num) + 
-                geom_boxplot(aes(y = Shannon, x = month)) +
-                xlab("Month") +
-                ylab("Shannon Index")
+  geom_boxplot(aes(y = Shannon, x = month)) +
+  xlab("Month") +
+  ylab("Shannon Index")
 midgut_month
 
 # Hindgut, host BMI 
 hindgut_host_bmi <- ggplot(hindgut_div_num, aes(x = host_body_mass_index, y = Shannon)) + 
-                    geom_point() + 
-                    geom_smooth(method = "lm") + 
-                    xlab("Host Body Mass Index") +
-                    ylab("Shannon Index") + 
-                    stat_cor(method = "spearman", label.x = 1.7) 
+  geom_point() + 
+  geom_smooth(method = "lm") + 
+  xlab("Host Body Mass Index") +
+  ylab("Shannon Index") + 
+  stat_cor(method = "spearman", label.x = 1.7) 
 hindgut_host_bmi
 
 # Hindgut, method_gear 
 hindgut_method_gear <- ggplot(hindgut_div_num) + 
-                       geom_boxplot(aes(y = Shannon, x = method_gear)) +
-                       xlab("Method Gear") +
-                       ylab("Shannon Index")
+  geom_boxplot(aes(y = Shannon, x = method_gear)) +
+  xlab("Method Gear") +
+  ylab("Shannon Index")
 hindgut_method_gear 
 
 # Hindgut, month 
 hindgut_div_num$month <- factor(hindgut_div_num$month)
 hindgut_month <- ggplot(hindgut_div_num) + 
-                geom_boxplot(aes(y = Shannon, x = month)) +
-                xlab("Month") +
-                ylab("Shannon Index")
+  geom_boxplot(aes(y = Shannon, x = month)) +
+  xlab("Month") +
+  ylab("Shannon Index")
 hindgut_month
 
 # Hindgut, swim_mode
 hindgut_swim_mode <- ggplot(hindgut_div_num) + 
-                     geom_boxplot(aes(y = Shannon, x = swim_mode)) +
-                     xlab("Swim Mode") +
-                     ylab("Shannon Index")
+  geom_boxplot(aes(y = Shannon, x = swim_mode)) +
+  xlab("Swim Mode") +
+  ylab("Shannon Index")
 hindgut_swim_mode
 
 # Saving plots
