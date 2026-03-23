@@ -18,11 +18,13 @@ library(ALDEx2)
 fish_metadata <- read_delim("fish_metadata.txt", delim="\t")
 
 # import picrust2 objects 
-arc_tree <- read.tree("picrust_out/arc.tre")
-bac_tree <- read.tree("picrust_out/bac.tre")
-arc <- read_delim('picrust_out/arc_marker_predicted_and_nsti.tsv.gz', delim="\t")
-bac <- read_delim('picrust_out/bac_EC_predicted.tsv.gz', delim="\t")
-comb <- read_delim('picrust_out/combined_marker_predicted_and_nsti.tsv.gz', delim="\t")
+arc_tree <- read.tree("picrust_out-2/arc.tre")
+bac_tree <- read.tree("picrust_out-2/bac.tre")
+arc <- read_delim('picrust_out-2/arc_EC_predicted.tsv.gz', delim="\t")
+bac <- read_delim('picrust_out-2/bac_EC_predicted.tsv.gz', delim="\t")
+comb <- read_delim('picrust_out-2/combined_marker_predicted_and_nsti.tsv.gz', delim="\t")
 
-da <- ggpicrust2(data = bac, metadata = fish_metadata)
+x <- read_delim('picrust_out-2/pathways_out/path_abun_unstrat.tsv.gz', delim="\t")
+
+da <- ggpicrust2(data = x)
 
