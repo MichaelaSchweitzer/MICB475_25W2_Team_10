@@ -15,16 +15,20 @@ library(vegan)
 library(ALDEx2)
 
 #import metadata 
-fish_metadata <- read_delim("fish_metadata.txt", delim="\t")
+fish_metadata <- read_delim("fish_metadata.txt", delim="\t") 
+colnames(fish_metadata)[1] <- "sample_name"
+
+#trying to fix metadata so that it imports correctly 
+#make sample IDs rownames instead of separate column 
+metadata_formatted <- fish_metadata %>% 
+  column_to_rownames("sample_name")
 
 # import picrust2 objects 
-arc_tree <- read.tree("picrust_out-2/arc.tre")
-bac_tree <- read.tree("picrust_out-2/bac.tre")
-arc <- read_delim('picrust_out-2/arc_EC_predicted.tsv.gz', delim="\t")
-bac <- read_delim('picrust_out-2/bac_EC_predicted.tsv.gz', delim="\t")
-comb <- read_delim('picrust_out-2/combined_marker_predicted_and_nsti.tsv.gz', delim="\t")
+x <- read_delim('picrust_out-2/KO_metagenome_out/pred_metagenome_unstrat.tsv.gz', delim="\t")
 
-x <- read_delim('picrust_out-2/pathways_out/path_abun_unstrat.tsv.gz', delim="\t")
 
-da <- ggpicrust2(data = x)
 
+da <- ggpicrust2(data = x, metadata = metadata_formatted, group = "sample_type")
+
+# i think problem is different # of samples between abundance table and metadata
+#i don't know why not all samples are in the abundance data though 
