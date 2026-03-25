@@ -205,3 +205,39 @@ Zotero Group: https://www.zotero.org/groups/6428513/micb_475_t10
    - table preferred over diagrams for alpha diversity results
 2. Direction for future work
    - filter data to keep rod and reel and rerun alpha/beta diversity, send results to Hans and decide analyses from there
+
+Minutes - March 23 
+Walk through of data slides 
+Shannon diversity table 
+-	Reduce decimal places on table 
+-	Switch to scientific notation 
+-	Make variable names readable 
+-	Add asterisks as well 
+Bubble plot 
+-	Cut, keep table instead 
+Shannon diversity plots 
+-	Check species of massive fish (in case it was data entry error) 
+o	It is a giant tuna! 
+-	Probably not seasonal trend? Based on month fluctuation 
+-	Benthic trawl tends to have highest Shannon diversity 
+Beta diversity 
+-	Is swim performance just stratifying by fish species? 
+Correction of method gear as technical variable 
+-	Would we need to restart/redo alpha diversity and beta diversity tables? (if we are going to restart + add as covariate) 
+o	See below, going to refocus project to control for this technical variable 
+
+Refocus 
+Option 1
+-	Alpha and beta diversity – method of catching fish significantly affects microbiome 
+o	More so than morphological variables 
+-	So – build machine learning model to predict catch method (excluding skin)
+o	Discuss accuracy
+Option 2
+-	Divide dataset by method_gear 
+o	Ex divide dataset and analyze biggest category (rod) 
+-	Rerun alpha and beta diversity on rod only and send to Evelyn and Hans 
+o	Hopefully remove confounding variable 
+o	Identify variable significant to carry into other analyses as applicable 
+-	Plot PCoA beta diversity of catch type 
+o	Justification to to consider as confounding variable (likely first figure) 
+-	Madi wants to rerun DEseq with method_gear as covariate (so that majority of samples are not filtered out), but we can do both 
