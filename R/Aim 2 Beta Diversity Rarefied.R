@@ -12,13 +12,13 @@ library(tidyverse)
 library(vegan)
 
 #### Load filtered phyloseq objects from Aim 1 ####
-load("all_phyloseq_objects_rodonly.RData")
+load("all_phyloseq_objects_rarefied.RData")
 
 #### Create data frames from sample_data ####
-skin_div_num <- data.frame(sample_data(skin_rodonly_phyloseq_object))
-hindgut_div_num <- data.frame(sample_data(hindgut_rodonly_phyloseq_object))
-midgut_div_num <- data.frame(sample_data(midgut_rodonly_phyloseq_object))
-gill_div_num <- data.frame(sample_data(gill_rodonly_phyloseq_object))
+skin_div_num <- data.frame(sample_data(skin_rare))
+hindgut_div_num <- data.frame(sample_data(hindgut_rare))
+midgut_div_num <- data.frame(sample_data(midgut_rare))
+gill_div_num <- data.frame(sample_data(gill_rare))
 
 #### Keep sample IDs as an explicit column ####
 skin_div_num$SampleID <- rownames(skin_div_num)
@@ -54,12 +54,11 @@ num_vars <- c(
 )
 
 #### Create a vector containing the variables of interest for Aim 2 ####
-# method_gear removed because all samples are now rod and reel only
 aim2_vars <- c(
   "dist_to_dorsal_cm", "fl_cm", "gape_cm", "gi_cm", "host_body_mass_index",
   "host_height", "host_height_vs_max_height_tl", "mass_g",
   "month", "ratio_dorsal_to_tl", "ratio_gape_to_tl", "ratio_gi_to_tl",
-  "swim_mode", "swim_performance", "tl_cm"
+  "swim_mode", "swim_performance", "tl_cm", "method_gear"
 )
 
 #### Convert numeric variables ####
@@ -195,24 +194,24 @@ gill_div_num_clean$na_count <- NULL
 # Prune phyloseq object to match cleaned metadata
 gill_rodonly_phyloseq_object_clean <- prune_samples(
   gill_div_num_clean$SampleID,
-  gill_rodonly_phyloseq_object
+  gill_rare
 )
 
 #### Run loop for each body site ####
 skin_beta_results <- run_beta_loop(
-  skin_div_num, skin_rodonly_phyloseq_object, aim2_vars, num_vars
+  skin_div_num, skin_rare, aim2_vars, num_vars
 )
 
 hindgut_beta_results <- run_beta_loop(
-  hindgut_div_num, hindgut_rodonly_phyloseq_object, aim2_vars, num_vars
+  hindgut_div_num, hindgut_rare, aim2_vars, num_vars
 )
 
 midgut_beta_results <- run_beta_loop(
-  midgut_div_num, midgut_rodonly_phyloseq_object, aim2_vars, num_vars
+  midgut_div_num, midgut_rare, aim2_vars, num_vars
 )
 
 gill_beta_results <- run_beta_loop(
-  gill_div_num_clean, gill_rodonly_phyloseq_object_clean, aim2_vars, num_vars
+  gill_div_num_clean, gill_rare, aim2_vars, num_vars
 )
 
 #### View results ####
@@ -224,14 +223,15 @@ gill_beta_results
 #### Save results ####
 save(
   skin_beta_results, hindgut_beta_results, midgut_beta_results, gill_beta_results,
-  file = "aim2_weighted_unifrac_results_rodonly.RData"
+  file = "aim2_weighted_unifrac_results_rarefied.RData"
 )
 
-write.csv(skin_beta_results, "skin_weighted_unifrac_results_rodonly.csv", row.names = FALSE)
-write.csv(hindgut_beta_results, "hindgut_weighted_unifrac_results_rodonly.csv", row.names = FALSE)
-write.csv(midgut_beta_results, "midgut_weighted_unifrac_results_rodonly.csv", row.names = FALSE)
-write.csv(gill_beta_results, "gill_weighted_unifrac_results_rodonly.csv", row.names = FALSE)
+write.csv(skin_beta_results, "skin_weighted_unifrac_results_rare.csv", row.names = FALSE)
+write.csv(hindgut_beta_results, "hindgut_weighted_unifrac_results_rare.csv", row.names = FALSE)
+write.csv(midgut_beta_results, "midgut_weighted_unifrac_results_rare.csv", row.names = FALSE)
+write.csv(gill_beta_results, "gill_weighted_unifrac_results_rare.csv", row.names = FALSE)
 
+#### Making figures ####
 # Making a merged table with adjusted p-values for beta diversity
 skin_padj <- skin_beta_results %>%
   select(variable, p_adj_bh) %>%
@@ -255,10 +255,7 @@ beta_div_padjvalues <- list(skin_padj, gill_padj, midgut_padj, hindgut_padj) %>%
 beta_div_padjvalues
 write.csv(beta_div_padjvalues, "beta_div_padjvalues.csv", row.names = FALSE)
 
-####THIS SECTION ONWARDS IS NOT UPDATED JUST FYI #######
-
-# Plotting Data (March 22nd, Michaela)
-
+# Plotting Data (March 22nd, Michaela, Updated March 28th, 2026 by Michaela)
 # Making a merged table with just Adonis R^2 values 
 skin_R2 <- skin_beta_results%>%
            select(-c(2, 4, 5, 6)) %>%

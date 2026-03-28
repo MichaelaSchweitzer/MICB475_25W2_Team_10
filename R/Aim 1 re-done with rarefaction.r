@@ -14,7 +14,9 @@ library(phyloseq)
 library(ape) # importing trees
 library(tidyverse)
 library(vegan)
-#### CREATING THE PHYLOSEQ OBJECT (March 1st and March 2nd, 2026 by Michaela) ####
+library(ggpubr) # for plotting spearman correlation values 
+
+#### CREATING THE PHYLOSEQ OBJECT (March 1st and March 2nd, 2026 by Michaela, Updated March 27th, 2026 by Mirren) ####
 
 #### Loading in the data files. ####
 # Metadata
@@ -100,13 +102,11 @@ midgut_phyloseq_object <- phyloseq(fish_OTU_matrix, midgut_metadata_phylo, fish_
 # Skin 
 skin_phyloseq_object <- phyloseq(fish_OTU_matrix, skin_metadata_phylo, fish_taxa_table, fish_tree)
 
-
-#Remove non-bacterial DNA (hindgut)
+# Removing non-bacterial DNA from all phyloseq objects and rarefying all to a sample size of 1000.
 hindgut_filt <- subset_taxa(hindgut_phyloseq_object,  Domain == "d__Bacteria" & Class!="c__Chloroplast" & Family !="f__Mitochondria")
 hindgut_filt_nolow <- filter_taxa(hindgut_filt, function(x) sum(x)>5, prune = TRUE)
 hindgut_final <- prune_samples(sample_sums(hindgut_filt_nolow)>100, hindgut_filt_nolow)
 hindgut_rare <- rarefy_even_depth(hindgut_final, rngseed = 1, sample.size = 1000)
-
 
 midgut_filt <- subset_taxa(midgut_phyloseq_object,  Domain == "d__Bacteria" & Class!="c__Chloroplast" & Family !="f__Mitochondria")
 midgut_filt_nolow <- filter_taxa(midgut_filt, function(x) sum(x)>5, prune = TRUE)
@@ -123,14 +123,12 @@ gill_filt_nolow <- filter_taxa(gill_filt, function(x) sum(x)>5, prune = TRUE)
 gill_final <- prune_samples(sample_sums(gill_filt_nolow)>100, gill_filt_nolow)
 gill_rare <- rarefy_even_depth(gill_final, rngseed = 1, sample.size = 1000)
 
-
-#### NOT UPDATED FOR RAREFIED DATA Visualizing componenents of the phyloseq objects #### NOT UPDATED FOR RAREFIED DATA
+#### Visualizing components of the non-rarefied phyloseq objects ####
 # Gill 
 otu_table(gill_phyloseq_object)
 sample_data(gill_phyloseq_object)
 tax_table(gill_phyloseq_object)
 phy_tree(gill_phyloseq_object)
-
 
 # Hindgut
 otu_table(hindgut_phyloseq_object)
@@ -150,33 +148,57 @@ sample_data(skin_phyloseq_object)
 tax_table(skin_phyloseq_object)
 phy_tree(skin_phyloseq_object)
 
+#### Visualizing components of the rarefied phyloseq objects ####
+# Gill 
+otu_table(gill_rare)
+sample_data(gill_rare)
+tax_table(gill_rare)
+phy_tree(gill_rare)
+
+# Hindgut
+otu_table(hindgut_rare)
+sample_data(hindgut_rare)
+tax_table(hindgut_rare)
+phy_tree(hindgut_rare)
+
+# Midgut 
+otu_table(midgut_rare)
+sample_data(midgut_rare)
+tax_table(midgut_rare)
+phy_tree(midgut_rare)
+
+# Skin 
+otu_table(skin_rare)
+sample_data(skin_rare)
+tax_table(skin_rare)
+phy_tree(skin_rare)
 
 # Saving Objects (Can now just load these instead of running all of the above code)
 save(skin_phyloseq_object, midgut_phyloseq_object, hindgut_phyloseq_object, gill_phyloseq_object, file = "all_phyloseq_objects_non_rarefied.RData") 
 save(skin_rare, midgut_rare, hindgut_rare, gill_rare, file = "all_phyloseq_objects_rarefied.RData") 
 
+#### Computing alpha diversity metrics ####
 
-#Get skin alpha diversity metrics 
+# Get alpha diversity metrics.
 alpha_div_skin <- estimate_richness(skin_rare, measures = "shannon")
 alpha_div_hindgut <- estimate_richness(hindgut_rare, measures = "shannon")
 alpha_div_midgut <- estimate_richness(midgut_rare, measures = "shannon")
 alpha_div_gill <- estimate_richness(gill_rare, measures = "shannon")
 
-#Create a dataframe containing sampledata
+#Create a data frame containing sample data
 skin_data <- sample_data(skin_rare)
 hindgut_data <- sample_data(hindgut_rare)
 midgut_data <- sample_data(midgut_rare)
 gill_data <- sample_data(gill_rare)
 
-
-#Add shannon scores to sample data 
+#Add Shannon scores to sample data 
 skin_div <- cbind(alpha_div_skin, skin_data)
 hindgut_div <- cbind(alpha_div_hindgut, hindgut_data)
 gill_div <- cbind(alpha_div_gill, gill_data)
 midgut_div <- cbind(alpha_div_midgut, midgut_data)
 
 ### Before we iterate through our phyloseq object, we have to first remove all "not applicable"'s, and convert numbers to numeric values (instead of characters)
-# Replace "not applicable"'s to NA (to do this we need to remove date formatting first bc R gets confused if not)
+# Replace "not applicable"'s to NA (to do this we need to remove date formatting first because R gets confused if not)
 skin_div_nodate <- select(skin_div, -"collection_date")
 skin_div_nodate[skin_div_nodate == "not applicable"] <- NA
 
@@ -189,14 +211,12 @@ midgut_div_nodate[midgut_div_nodate == "not applicable"] <- NA
 gill_div_nodate <- select(gill_div, -"collection_date")
 gill_div_nodate[gill_div_nodate == "not applicable"] <- NA
 
-
-# Make a vector of all the numeric variables
+# Make a vector of all the numerical variables
 num_vars <- c("dist_to_dorsal_cm", "fl_cm", "gape_cm", "gi_cm", "host_body_mass_index",
              "host_height", "host_height_vs_max_height_tl", "mass_g", "month", "ratio_dorsal_to_tl", "ratio_gape_to_tl", 
              "ratio_gi_to_tl", "tl_cm")
 
-
-# For loop to make all numeric variables numeric class
+# For loop to make all numerical variables numeric class
 skin_div_num <- skin_div_nodate
 for (n in num_vars) {
   skin_div_num[[n]] <- as.numeric(skin_div_nodate[[n]]) 
@@ -231,10 +251,9 @@ for (i in 1:length(hindgut_div_num)) {
     (print("not_numeric")) }
 }
 
+#### For loop to calculate significance for alpha diversity metrics ####
 
-### For loop to calculate significance for alpha diversity metrics ###
-
-#Create an empty dataframe to hold P values 
+#Create an empty data frame to hold P values 
 skin_results <- data.frame(variable = character(), p_value = numeric(), method = character())
 hindgut_results <- data.frame(variable = character(), p_value = numeric(), method = character())
 midgut_results <- data.frame(variable = character(), p_value = numeric(), method = character())
@@ -256,7 +275,6 @@ for (v in vars) {
 }
 
 #Hindgut for loop
-
 for (v in vars) {
   if (class(hindgut_div_num[[v]]) == "numeric") {
     p <- cor.test(hindgut_div_num$Shannon, 
@@ -298,7 +316,16 @@ for (v in vars) {
   }
 }
 
-# Plot to count significant variables
+# Saving the alpha diversity and loop results as an object 
+save(skin_div_num, midgut_div_num, hindgut_div_num, gill_div_num, skin_results, midgut_results, hindgut_results, gill_results, file = "alpha_loop_results.RData")
+
+write.csv(skin_results, "skin_alpha_results.csv", row.names = FALSE)
+write.csv(hindgut_results, "hindgut_alpha_results.csv", row.names = FALSE)
+write.csv(midgut_results, "midgut_alpha_results.csv", row.names = FALSE)
+write.csv(gill_results, "gill_alpha_results.csv", row.names = FALSE)
+
+#### P-value table figure ####
+# Creating a table to look at p-values for each variable across each organ 
 skin_wo_method <- skin_results[,-3] %>%
   setNames(c("variable", "Skin"))
 gill_wo_method <- gill_results[,-3] %>%
@@ -308,16 +335,146 @@ midgut_wo_method <- midgut_results[,-3] %>%
 hindgut_wo_method <- hindgut_results[,-3] %>%
   setNames(c("variable", "Hindgut"))
 
+# Merging the tables for each organ into a single table 
 merged_table <- list(skin_wo_method, gill_wo_method, midgut_wo_method, hindgut_wo_method) %>%
   reduce(full_join, by = "variable")
 
+# Saving the merged table 
+write.csv(merged_table, "alpha_div_pvalues.csv", row.names = FALSE)
 
+#### Within variable alpha diversity plots ####
+# Skin, dist_to_dorsal_cm
+skin_dist_dorsal <- ggplot(skin_div_num, aes(x = dist_to_dorsal_cm, y = Shannon)) + 
+  geom_point() + 
+  geom_smooth(method = "lm") + 
+  xlab("Distance to Dorsal (cm)") + 
+  ylab("Shannon Index") +
+  stat_cor(method = "spearman", label.x = 30) 
+skin_dist_dorsal 
 
+# Gill, dist_to_dorsal_cm
+gill_dist_dorsal <- ggplot(gill_div_num, aes(x = dist_to_dorsal_cm, y = Shannon)) + 
+  geom_point() + 
+  geom_smooth(method = "lm") + 
+  xlab("Distance to Dorsal (cm)") + 
+  ylab("Shannon Index") +
+  stat_cor(method = "spearman", label.x = 30) 
+gill_dist_dorsal 
 
+# Gill, fl_cm
+gill_fl_cm <- ggplot(gill_div_num, aes(x = fl_cm, y = Shannon)) + 
+  geom_point() + 
+  geom_smooth(method = "lm") +
+  xlab("Fork Length (cm)") + 
+  ylab("Shannon Index") + 
+  stat_cor(method = "spearman", label.x = 75) 
+gill_fl_cm 
 
+# Gill, gape_cm
+gill_gape_cm <- ggplot(gill_div_num, aes(x = gape_cm, y = Shannon)) + 
+  geom_point() + 
+  geom_smooth(method = "lm") + 
+  xlab("Gape Length (cm)") + 
+  ylab("Shannon Index") + 
+  stat_cor(method = "spearman", label.x = 7) 
+gill_gape_cm 
 
+# Gill, gi_cm 
+gill_gi_cm <- ggplot(gill_div_num, aes(x = gi_cm, y = Shannon)) + 
+  geom_point() + 
+  geom_smooth(method = "lm") + 
+  xlab("Length of GI Tract (cm)") +
+  ylab("Shannon Index") +
+  stat_cor(method = "spearman", label.x = 45) 
+gill_gi_cm 
 
+# Gill, host_height 
+gill_host_height <- ggplot(gill_div_num, aes(x = host_height, y = Shannon)) +
+  geom_point() + 
+  geom_smooth(method = "lm") + 
+  xlab("Host Height (cm)") + 
+  ylab("Shannon Index") +
+  stat_cor(method = "spearman", label.x = 80) 
+gill_host_height
 
+# Gill, mass_g 
+gill_mass_g <- ggplot(gill_div_num, aes(x = mass_g, y = Shannon)) + 
+  geom_point() + 
+  geom_smooth(method = "lm") + 
+  xlab("Mass (g)") +
+  ylab("Shannon Index") +
+  stat_cor(method = "spearman", label.x = 2500) 
+gill_mass_g
 
+# Gill, method_gear 
+gill_method_gear <- ggplot(gill_div_num) + 
+  geom_boxplot(aes(y = Shannon, x = method_gear)) +
+  xlab("Method Gear") +
+  ylab("Shannon Index")
+gill_method_gear
 
+# Gill, tl_cm 
+gill_tail_cm <- ggplot(gill_div_num, aes(x = tl_cm, y = Shannon)) + 
+  geom_point() + 
+  geom_smooth(method = "lm") + 
+  xlab("Tail Length (cm)") +
+  ylab("Shannon Index") +
+  stat_cor(method = "spearman", label.x = 80) 
+gill_tail_cm
 
+# Midgut, method_gear 
+midgut_method_gear <- ggplot(midgut_div_num) + 
+  geom_boxplot(aes(y = Shannon, x = method_gear)) +
+  xlab("Method Gear") +
+  ylab("Shannon Index")
+midgut_method_gear 
+
+# Midgut, month 
+midgut_div_num$month <- factor(midgut_div_num$month)
+midgut_month <- ggplot(midgut_div_num) + 
+  geom_boxplot(aes(y = Shannon, x = month)) +
+  xlab("Month") +
+  ylab("Shannon Index")
+midgut_month
+
+# Midgut, ratio_dorsal_to_tl
+midgut_dorsal_tl <- ggplot(midgut_div_num, aes(x = ratio_dorsal_to_tl, y = Shannon)) + 
+  geom_point() + 
+  geom_smooth(method = "lm") + 
+  xlab("Ratio of dorsal length to tail length") +
+  ylab("Shannon Index") +
+  stat_cor(method = "spearman", label.x = 0.5) 
+midgut_dorsal_tl
+
+# Midgut, gape_to_tl
+midgut_gape_tl <- ggplot(midgut_div_num, aes(x = ratio_gape_to_tl, y = Shannon)) + 
+  geom_point() + 
+  geom_smooth(method = "lm") + 
+  xlab("Ratio of gape length to tail length") +
+  ylab("Shannon Index") +
+  stat_cor(method = "spearman", label.x = 0.2) 
+midgut_gape_tl
+
+# Hindgut, method_gear 
+hindgut_method_gear <- ggplot(hindgut_div_num) + 
+  geom_boxplot(aes(y = Shannon, x = method_gear)) +
+  xlab("Method Gear") +
+  ylab("Shannon Index")
+hindgut_method_gear 
+
+# Hindgut, month 
+hindgut_div_num$month <- factor(hindgut_div_num$month)
+hindgut_month <- ggplot(hindgut_div_num) + 
+  geom_boxplot(aes(y = Shannon, x = month)) +
+  xlab("Month") +
+  ylab("Shannon Index")
+hindgut_month
+
+# Hindgut, gape_to_tl
+hindgut_gape_tl <- ggplot(hindgut_div_num, aes(x = ratio_gape_to_tl, y = Shannon)) + 
+  geom_point() + 
+  geom_smooth(method = "lm") + 
+  xlab("Ratio of gape length to tail length") +
+  ylab("Shannon Index") +
+  stat_cor(method = "spearman", label.x = 0.2) 
+hindgut_gape_tl
