@@ -1,2 +1,3 @@
 load("/Users/jilld/Library/CloudStorage/OneDrive-UBC/UBC/Fifth Year/Term 2/MICB 475/MICB475_25W2_Team_10/R/alpha_loop_results.RData")
 load("/Users/jilld/Library/CloudStorage/OneDrive-UBC/UBC/Fifth Year/Term 2/MICB 475/MICB475_25W2_Team_10/R/all_phyloseq_objects.RData")
+load("/Users/jilld/Library/CloudStorage/OneDrive-UBC/UBC/Fifth Year/Term 2/MICB 475/MICB475_25W2_Team_10/R/all_phyloseq_objects_bacteriaonly_pruned.RData")

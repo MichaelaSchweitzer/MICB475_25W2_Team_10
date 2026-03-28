@@ -175,6 +175,7 @@ phy_tree(skin_rare)
 
 # Saving Objects (Can now just load these instead of running all of the above code)
 save(skin_phyloseq_object, midgut_phyloseq_object, hindgut_phyloseq_object, gill_phyloseq_object, file = "all_phyloseq_objects_non_rarefied.RData") 
+save(skin_final, midgut_final, hindgut_final, gill_final, file = "all_phyloseq_objects_bacteriaonly_pruned.RData")
 save(skin_rare, midgut_rare, hindgut_rare, gill_rare, file = "all_phyloseq_objects_rarefied.RData") 
 
 #### Computing alpha diversity metrics ####
