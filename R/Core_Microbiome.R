@@ -1,6 +1,5 @@
 install.packages("UpSetR")
 install.packages("ComplexHeatmap")
-library(ComplexUpset)
 library(grid)
 library(UpSetR)
 library(tidyverse)
