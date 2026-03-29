@@ -241,3 +241,8 @@ o	Identify variable significant to carry into other analyses as applicable
 -	Plot PCoA beta diversity of catch type 
 o	Justification to to consider as confounding variable (likely first figure) 
 -	Madi wants to rerun DEseq with method_gear as covariate (so that majority of samples are not filtered out), but we can do both 
+
+## Team Meeting #7 March 30th, 2026: Agenda
+1. Go through new graphs
+2. Plan storyline and what should be in the figures 
+3. Delegate slide making and figures 
