@@ -241,3 +241,24 @@ o	Identify variable significant to carry into other analyses as applicable
 -	Plot PCoA beta diversity of catch type 
 o	Justification to to consider as confounding variable (likely first figure) 
 -	Madi wants to rerun DEseq with method_gear as covariate (so that majority of samples are not filtered out), but we can do both 
+
+## Team Meeting #7 March 30th, 2026: Agenda
+1. Go through new graphs
+2. Plan storyline and what should be in the figures 
+3. Delegate slide making and figures 
+
+## Team Meeting #7 March 30th, 2026: Minutes 
+- alpha table (Table 1) keep all the rows, venn diagram might be good option for alpha diversity data presentation
+- second alpha diversity figure is good for presentation, first is necessary for manuscript
+- Table 2 will be beta diversity results 
+- want to know diversity of sizes of fish caught by each method in meta data analysis
+- key takeaway from core microbiome is less shared microbes
+- prevelance is low for coremicrobiome just make sure to mention why
+- panel A alpha diversity box plot for gill, panel B alpha diversity boxplot midgut, panel C alpha diversity boxplot hindgut, panel D betadiversity for midgut with PCoA plot (Figure 1)
+- annotate significant differences in box plots
+- do comparisons within groups not pairwise comparisons for box plots 
+- for DESeq have a table (Table 3) that says method gear relative to benthic trawl and heres what was enriched v depleted so it summarizes overall data and then have supplemental figures that are six bar plots for ech method gear (figure S1 with 5 panels)
+- keep only the midgut figure for indicator taxa (Figure 3) change the yellow points and stretch out the axis for better readability
+- Figure 4 will have two panles with mass comparion and bar graph with distribution of fish across different methods for metadata analysis
+- keep pres simple so other group can understand it! main takeaway is simple so keep only relevant info!
+- no meeting next week 
