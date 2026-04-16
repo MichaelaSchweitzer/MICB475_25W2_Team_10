@@ -210,7 +210,7 @@ skin_venn
 
 # Gill upset plot
 
-svg(filename = "gill_upset.svg", width = 7, height = 7)
+svg(filename = "gill_upset.svg", width = 9.5, height = 3.75)
 
 
 upset(fromList(gill_core_list),
@@ -221,21 +221,22 @@ upset(fromList(gill_core_list),
       nintersects = 64)
 
 dev.off()
-# Gill upset plot for powerpoint
-png(filename = "gill_upset_ppt.png", width = 2500, height = 1800, res = 300)
-
-
-upset(fromList(gill_core_list),
-      nsets = 6,
-      order.by = "freq",
-      keep.order = TRUE,
-      sets = c("Benthic Trawl", "Net", "Spear", "Gill Net", "Midwater Trawl", "Rod and Reel"),
-      nintersects = 64)
-
-dev.off()
+# # Gill upset plot for powerpoint
+# png(filename = "gill_upset_ppt.png", width = 2500, height = 1800, res = 300)
+# 
+# 
+# upset(fromList(gill_core_list),
+#       nsets = 6,
+#       order.by = "freq",
+#       keep.order = TRUE,
+#       sets = c("Benthic Trawl", "Net", "Spear", "Gill Net", "Midwater Trawl", "Rod and Reel"),
+#       nintersects = 64)
+# 
+# dev.off()
 
 # Hindgut Upset Plot
-svg(filename = "hindgut_upset.svg", width = 7, height = 7)
+
+svg(filename = "hindgut_upset.svg", width = 9.5, height = 3.75)
 
 upset(fromList(hindgut_core_list),
       nsets = 6,
@@ -246,21 +247,21 @@ upset(fromList(hindgut_core_list),
 
 dev.off()
 
-# Hindgut upset plot for powerpoint
-png(filename = "hindgut_upset_ppt.png", width = 2500, height = 1800, res = 300)
-
-upset(fromList(hindgut_core_list),
-      nsets = 6,
-      order.by = "freq",
-      keep.order = FALSE,
-      sets = c("Benthic Trawl", "Net", "Spear", "Gill Net", "Midwater Trawl", "Rod and Reel"),
-      nintersects = 64)
-
-dev.off()
+# # Hindgut upset plot for powerpoint
+# png(filename = "hindgut_upset_ppt.png", width = 2500, height = 1800, res = 300)
+# 
+# upset(fromList(hindgut_core_list),
+#       nsets = 6,
+#       order.by = "freq",
+#       keep.order = FALSE,
+#       sets = c("Benthic Trawl", "Net", "Spear", "Gill Net", "Midwater Trawl", "Rod and Reel"),
+#       nintersects = 64)
+# 
+# dev.off()
 
 
 # Midgut Upset Plot
-svg(filename = "midgut_upset.svg", width = 7, height = 7)
+svg(filename = "midgut_upset.svg", width = 9.5, height = 3.75)
 
 upset(fromList(midgut_core_list),
       nsets = 6,
@@ -270,18 +271,18 @@ upset(fromList(midgut_core_list),
       nintersects = 64)
 dev.off()
 
-#Midgut upset plot for powerpoint
-png(filename = "midgut_upset_ppt.png", width = 2500, height = 1800, res = 300)
-
-
-upset(fromList(midgut_core_list),
-      nsets = 6,
-      order.by = "freq",
-      keep.order = FALSE,
-      sets = c("Benthic Trawl", "Net", "Spear", "Gill Net", "Midwater Trawl", "Rod and Reel"),
-      nintersects = 64)
-
-dev.off()
+# #Midgut upset plot for powerpoint
+# png(filename = "midgut_upset_ppt.png", width = 2500, height = 1800, res = 300)
+# 
+# 
+# upset(fromList(midgut_core_list),
+#       nsets = 6,
+#       order.by = "freq",
+#       keep.order = FALSE,
+#       sets = c("Benthic Trawl", "Net", "Spear", "Gill Net", "Midwater Trawl", "Rod and Reel"),
+#       nintersects = 64)
+# 
+# dev.off()
 
 
 # Skin Upset plot -> Not keeping
