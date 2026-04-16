@@ -208,100 +208,102 @@ skin_venn
 ### If you want to remake these images, just uncomment (ctrl + shift + C)
 
 
-# # Gill upset plot
-# 
-# png(filename = "gill_upset.png", width = 1800, height = 1800, res = 300)
-# 
-# 
-# upset(fromList(gill_core_list), 
-#       nsets = 6,
-#       order.by = "freq", 
-#       keep.order = TRUE,
-#       sets = c("Benthic Trawl", "Net", "Spear", "Gill Net", "Midwater Trawl", "Rod and Reel"),
-#       nintersects = 64)
-# 
-# dev.off()
+# Gill upset plot
+
+svg(filename = "gill_upset.svg", width = 9.5, height = 3.75)
+
+
+upset(fromList(gill_core_list),
+      nsets = 6,
+      order.by = "freq",
+      keep.order = TRUE,
+      sets = c("Benthic Trawl", "Net", "Spear", "Gill Net", "Midwater Trawl", "Rod and Reel"),
+      nintersects = 64)
+
+dev.off()
 # # Gill upset plot for powerpoint
 # png(filename = "gill_upset_ppt.png", width = 2500, height = 1800, res = 300)
 # 
 # 
-# upset(fromList(gill_core_list), 
+# upset(fromList(gill_core_list),
 #       nsets = 6,
-#       order.by = "freq", 
+#       order.by = "freq",
 #       keep.order = TRUE,
 #       sets = c("Benthic Trawl", "Net", "Spear", "Gill Net", "Midwater Trawl", "Rod and Reel"),
 #       nintersects = 64)
 # 
 # dev.off()
-# 
-# # Hindgut Upset Plot
-# png(filename = "hindgut_upset.png", width = 1800, height = 1800, res = 300)
-# 
-# upset(fromList(hindgut_core_list), 
-#       nsets = 6,
-#       order.by = "freq", 
-#       keep.order = FALSE,
-#       sets = c("Benthic Trawl", "Net", "Spear", "Gill Net", "Midwater Trawl", "Rod and Reel"),
-#       nintersects = 64)
-# 
-# dev.off()
-# 
+
+# Hindgut Upset Plot
+
+svg(filename = "hindgut_upset.svg", width = 9.5, height = 3.75)
+
+upset(fromList(hindgut_core_list),
+      nsets = 6,
+      order.by = "freq",
+      keep.order = FALSE,
+      sets = c("Benthic Trawl", "Net", "Spear", "Gill Net", "Midwater Trawl", "Rod and Reel"),
+      nintersects = 64)
+
+dev.off()
+
 # # Hindgut upset plot for powerpoint
 # png(filename = "hindgut_upset_ppt.png", width = 2500, height = 1800, res = 300)
 # 
-# upset(fromList(hindgut_core_list), 
+# upset(fromList(hindgut_core_list),
 #       nsets = 6,
-#       order.by = "freq", 
+#       order.by = "freq",
 #       keep.order = FALSE,
 #       sets = c("Benthic Trawl", "Net", "Spear", "Gill Net", "Midwater Trawl", "Rod and Reel"),
 #       nintersects = 64)
 # 
 # dev.off()
-# 
-# 
-# # Midgut Upset Plot
-# png(filename = "midgut_upset.png", width = 1800, height = 1800, res = 300)
-# 
-# upset(fromList(midgut_core_list), 
-#       nsets = 6,
-#       order.by = "freq", 
-#       keep.order = FALSE,
-#       sets = c("Benthic Trawl", "Net", "Spear", "Gill Net", "Midwater Trawl", "Rod and Reel"),
-#       nintersects = 64)
-# dev.off()
-# 
+
+
+# Midgut Upset Plot
+svg(filename = "midgut_upset.svg", width = 9.5, height = 3.75)
+
+upset(fromList(midgut_core_list),
+      nsets = 6,
+      order.by = "freq",
+      keep.order = FALSE,
+      sets = c("Benthic Trawl", "Net", "Spear", "Gill Net", "Midwater Trawl", "Rod and Reel"),
+      nintersects = 64)
+dev.off()
+
 # #Midgut upset plot for powerpoint
 # png(filename = "midgut_upset_ppt.png", width = 2500, height = 1800, res = 300)
 # 
 # 
-# upset(fromList(midgut_core_list), 
+# upset(fromList(midgut_core_list),
 #       nsets = 6,
-#       order.by = "freq", 
+#       order.by = "freq",
 #       keep.order = FALSE,
 #       sets = c("Benthic Trawl", "Net", "Spear", "Gill Net", "Midwater Trawl", "Rod and Reel"),
 #       nintersects = 64)
 # 
 # dev.off()
-# 
-# 
-# # Skin Upset plot
+
+
+# Skin Upset plot -> Not keeping
 # png(filename = "skin_upset.png", width = 1800, height = 1800, res = 300)
 # 
-# upset(fromList(skin_core_list), 
+# upset(fromList(skin_core_list),
 #       nsets = 6,
-#       order.by = "freq", 
+#       order.by = "freq",
 #       keep.order = FALSE,
 #       sets = c("Benthic Trawl", "Net", "Spear", "Gill Net", "Midwater Trawl", "Rod and Reel"),
 #       nintersects = 64)
+# 
 # dev.off()
 # 
 # #Skin upset plot for ppt
 # png(filename = "skin_upset_ppt.png", width = 2500, height = 1800, res = 300)
 # 
 # 
-# upset(fromList(skin_core_list), 
+# upset(fromList(skin_core_list),
 #       nsets = 6,
-#       order.by = "freq", 
+#       order.by = "freq",
 #       keep.order = FALSE,
 #       sets = c("Benthic Trawl", "Net", "Spear", "Gill Net", "Midwater Trawl", "Rod and Reel"),
 #       nintersects = 64)
@@ -309,8 +311,8 @@ skin_venn
 # dev.off()
 # 
 # 
-# 
-# 
+
+
 
 
 
