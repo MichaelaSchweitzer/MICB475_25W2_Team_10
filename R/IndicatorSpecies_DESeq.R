@@ -18,7 +18,7 @@ levels(factor(sample_data(gill_final)$method_gear))
 
 # Remove "not applicable" samples from ALL variables in gill
 gill_phyloseq_object_clean <- subset_samples(
-  gill_phyloseq_object,
+  gill_final,
   method_gear != "not applicable")
 
 # Remove any taxa that are now all zeros after sample removal
@@ -232,3 +232,47 @@ ggsave(filename="gill_vol_plot.png", gill_volcano_deseq)
 resultsNames(midgut_deseq)
 resultsNames(hindgut_deseq)
 resultsNames(gill_deseq)
+
+# Making Table 3 (April 5th, 2026 by Michaela) 
+# Hindgut summary
+hindgut_deseq_summary_table <- data.frame(number_of_ASVs = nrow(deseq_res_hindgut),
+                                          number_of_differentially_abundant_ASVs = nrow(subset(deseq_res_hindgut, padj < 0.01 & abs(log2FoldChange) > 2)),
+                                          number_of_increased_ASVs = nrow(subset(deseq_res_hindgut, padj < 0.01 & abs(log2FoldChange) > 2 & log2FoldChange > 0)),
+                                          number_of_decreased_ASVs = nrow(subset(deseq_res_hindgut, padj < 0.01 & abs(log2FoldChange) > 2 & log2FoldChange < 0))) 
+hindgut_deseq_summary_table <- mutate(hindgut_deseq_summary_table, percent_changed_ASVs = ((number_of_differentially_abundant_ASVs) / (number_of_ASVs)) * 100)
+hindgut_deseq_summary_table <- mutate(hindgut_deseq_summary_table, percent_increased_ASVs = ((number_of_increased_ASVs) / (number_of_differentially_abundant_ASVs)) * 100)
+hindgut_deseq_summary_table <- mutate(hindgut_deseq_summary_table, percent_decreased_ASVs = ((number_of_decreased_ASVs) / (number_of_differentially_abundant_ASVs)) * 100)
+
+# Midgut summary 
+midgut_deseq_summary_table <- data.frame(number_of_ASVs = nrow(deseq_res_midgut),
+                                          number_of_differentially_abundant_ASVs = nrow(subset(deseq_res_midgut, padj < 0.01 & abs(log2FoldChange) > 2)),
+                                          number_of_increased_ASVs = nrow(subset(deseq_res_midgut, padj < 0.01 & abs(log2FoldChange) > 2 & log2FoldChange > 0)),
+                                          number_of_decreased_ASVs = nrow(subset(deseq_res_midgut, padj < 0.01 & abs(log2FoldChange) > 2 & log2FoldChange < 0))) 
+midgut_deseq_summary_table <- mutate(midgut_deseq_summary_table, percent_changed_ASVs = ((number_of_differentially_abundant_ASVs) / (number_of_ASVs)) * 100)
+midgut_deseq_summary_table <- mutate(midgut_deseq_summary_table, percent_increased_ASVs = ((number_of_increased_ASVs) / (number_of_differentially_abundant_ASVs)) * 100)
+midgut_deseq_summary_table <- mutate(midgut_deseq_summary_table, percent_decreased_ASVs = ((number_of_decreased_ASVs) / (number_of_differentially_abundant_ASVs)) * 100)
+
+# Gill summary 
+gill_deseq_summary_table <- data.frame(number_of_ASVs = nrow(deseq_res_gill),
+                                         number_of_differentially_abundant_ASVs = nrow(subset(deseq_res_gill, padj < 0.01 & abs(log2FoldChange) > 2)),
+                                         number_of_increased_ASVs = nrow(subset(deseq_res_gill, padj < 0.01 & abs(log2FoldChange) > 2 & log2FoldChange > 0)),
+                                         number_of_decreased_ASVs = nrow(subset(deseq_res_gill, padj < 0.01 & abs(log2FoldChange) > 2 & log2FoldChange < 0))) 
+gill_deseq_summary_table <- mutate(gill_deseq_summary_table, percent_changed_ASVs = ((number_of_differentially_abundant_ASVs) / (number_of_ASVs)) * 100)
+gill_deseq_summary_table <- mutate(gill_deseq_summary_table, percent_increased_ASVs = ((number_of_increased_ASVs) / (number_of_differentially_abundant_ASVs)) * 100)
+gill_deseq_summary_table <- mutate(gill_deseq_summary_table, percent_decreased_ASVs = ((number_of_decreased_ASVs) / (number_of_differentially_abundant_ASVs)) * 100)
+
+# Combining summary tables into 1 table 
+deseq_results_summary <- rbind(hindgut_deseq_summary_table, midgut_deseq_summary_table, gill_deseq_summary_table)
+deseq_results_summary$Tissue <- c("Hindgut", "Midgut", "Gill")
+deseq_results_summary <- select(deseq_results_summary, Tissue, everything())
+deseq_results_summary <- rename (deseq_results_summary, 
+                                 number_of_ASVs = "Total Number of ASVs",
+                                 number_of_differentially_abundant_ASVs = "Number of Differentially Abundant ASVs",
+                                 number_of_increased_ASVs = "Number of ASVs that Increased in Abundance",
+                                 number_of_decreased_ASVs = "Number of ASVs that Decreased in Abundance", 
+                                 percent_changed_ASVs = "% of Total ASVs that are Differentially Abundant",
+                                 percent_increased_ASVs = "% of Differentially Abundant ASVs that Increased in Abundance", 
+                                 percent_decreased_ASVs = "% of Differentially Abundant ASVs that Decreased in Abundance")
+
+# Saving 
+write.csv(deseq_results_summary, "deseqresults.csv", row.names = FALSE)

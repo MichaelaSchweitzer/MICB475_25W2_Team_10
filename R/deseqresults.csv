@@ -1,0 +1,4 @@
+"Tissue","Total Number of ASVs","Number of Differentially Abundant ASVs","Number of ASVs that Increased in Abundance","Number of ASVs that Decreased in Abundance","% of Total ASVs that are Differentially Abundant","% of Differentially Abundant ASVs that Increased in Abundance","% of Differentially Abundant ASVs that Decreased in Abundance"
+"Hindgut",1709,32,4,28,1.8724400234055,12.5,87.5
+"Midgut",3974,161,29,132,4.05133366884751,18.0124223602484,81.9875776397515
+"Gill",2445,54,16,38,2.20858895705521,29.6296296296296,70.3703703703704
