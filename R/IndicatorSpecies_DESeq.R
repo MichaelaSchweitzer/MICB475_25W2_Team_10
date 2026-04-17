@@ -117,23 +117,27 @@ method_gear_midgut <- ggplot(merged_results_midgut) +
   geom_errorbar(aes(x = Genus, ymin = log2FoldChange - lfcSE, 
                     ymax = log2FoldChange + lfcSE)) +
   theme(axis.text.x = element_text(angle = 90, hjust = 1, vjust = 0.5)) +
-  labs(title = "Midgut - Differentially Abundant ASVs by Gear Type",
-       x = "Genus", y = "Log2 Fold Change")
+  labs(title = "Midgut",
+       x = "Genus", y = "Log2 Fold Change") + 
+  theme(panel.grid = element_blank())
 method_gear_midgut
 
-ggsave(file = "midgutdeseqmethodgear.png", 
+ggsave(file = "midgutdeseqmethodgear.svg", 
        plot = method_gear_midgut,
        height = 8, width = 20)
 
 
 # Volcano plot
 midgut_volcano_deseq <- deseq_res_midgut %>%
-                        mutate(significant = padj<0.01 & abs(log2FoldChange)>2) %>%
-                        ggplot(aes(x=log2FoldChange, y=-log10(padj), col=significant)) +
-                        geom_point()
+                        mutate(significant = ifelse(padj<0.01 & abs(log2FoldChange)>2, "Significant", "Not significant")) %>%
+                        ggplot(aes(x=log2FoldChange, y=-log10(padj), color=significant)) +
+                        geom_point() +
+                        geom_vline(aes(xintercept = 0)) +
+                        scale_color_manual(name = "Legend", values = c("Significant" = "darkblue", "Not significant" = "lightblue")) +
+                        theme(panel.grid = element_blank())
 midgut_volcano_deseq
 
-ggsave(filename="midgut_vol_plot.png", midgut_volcano_deseq)
+ggsave(filename="midgut_vol_plot.svg", midgut_volcano_deseq)
 
 # Hindgut
 hindgut_plus1 <- transform_sample_counts(hindgut_final, function(x) x + 1)
@@ -165,22 +169,26 @@ method_gear_hindgut_plot <- ggplot(merged_results_hindgut) +
   geom_errorbar(aes(x = Genus, ymin = log2FoldChange - lfcSE, 
                     ymax = log2FoldChange + lfcSE)) +
   theme(axis.text.x = element_text(angle = 90, hjust = 1, vjust = 0.5)) +
-  labs(title = "Hindgut - Differentially Abundant ASVs by Gear Type",
-       x = "Genus", y = "Log2 Fold Change")
+  labs(title = "Hindgut",
+       x = "Genus", y = "Log2 Fold Change") + 
+  theme(panel.grid = element_blank())
 method_gear_hindgut_plot
 
-ggsave(file = "hindgutdeseqmethodgear.png", 
+ggsave(file = "hindgutdeseqmethodgear.svg", 
        plot = method_gear_hindgut_plot,
        height = 8, width = 20)
 
 # Volcano plot
 hindgut_volcano_deseq <- deseq_res_hindgut %>%
-  mutate(significant = padj<0.01 & abs(log2FoldChange)>2) %>%
-  ggplot(aes(x=log2FoldChange, y=-log10(padj), col=significant)) +
-  geom_point()
+  mutate(significant = ifelse(padj<0.01 & abs(log2FoldChange)>2, "Significant", "Not significant")) %>%
+  ggplot(aes(x=log2FoldChange, y=-log10(padj), color=significant)) +
+  geom_point() +
+  geom_vline(aes(xintercept = 0)) +
+  scale_color_manual(name = "Legend", values = c("Significant" = "darkblue", "Not significant" = "lightblue")) +
+  theme(panel.grid = element_blank())
 hindgut_volcano_deseq
 
-ggsave(filename="hindgut_vol_plot.png", hindgut_volcano_deseq)
+ggsave(filename="hindgut_vol_plot.svg", hindgut_volcano_deseq)
 
 # Gill
 gill_plus1 <- transform_sample_counts(gill_phyloseq_object_clean, function(x) x + 1)
@@ -212,22 +220,27 @@ gill_method_gear <- ggplot(merged_results_gill) +
   geom_errorbar(aes(x = Genus, ymin = log2FoldChange - lfcSE, 
                     ymax = log2FoldChange + lfcSE)) +
   theme(axis.text.x = element_text(angle = 90, hjust = 1, vjust = 0.5)) +
-  labs(title = "Gill - Differentially Abundant ASVs by Gear Type",
-       x = "Genus", y = "Log2 Fold Change")
+  labs(title = "Gill",
+       x = "Genus", y = "Log2 Fold Change") + 
+  theme(panel.grid = element_blank())
 gill_method_gear
 
-ggsave(file = "gilldeseqmethodgear.png", 
+ggsave(file = "gilldeseqmethodgear.svg", 
        plot = gill_method_gear,
        height = 8, width = 20)
 
 # Volcano plot
 gill_volcano_deseq <- deseq_res_gill %>%
-  mutate(significant = padj<0.01 & abs(log2FoldChange)>2) %>%
-  ggplot(aes(x=log2FoldChange, y=-log10(padj), col=significant)) +
-  geom_point()
+  mutate(significant = ifelse(padj<0.01 & abs(log2FoldChange)>2, "Significant", "Not significant")) %>%
+  ggplot(aes(x=log2FoldChange, y=-log10(padj), color=significant)) +
+  geom_point() +
+  geom_vline(aes(xintercept = 0)) +
+  scale_color_manual(name = "Legend", values = c("Significant" = "darkblue", "Not significant" = "lightblue")) +
+  theme(panel.grid = element_blank())
 gill_volcano_deseq
 
-ggsave(filename="gill_vol_plot.png", gill_volcano_deseq)
+
+ggsave(filename="gill_vol_plot.svg", gill_volcano_deseq)
 
 resultsNames(midgut_deseq)
 resultsNames(hindgut_deseq)
