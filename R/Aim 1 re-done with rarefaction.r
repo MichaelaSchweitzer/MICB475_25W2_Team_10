@@ -340,7 +340,7 @@ hindgut_wo_method <- hindgut_results[,-3] %>%
 
 # Merging the tables for each organ into a single table 
 merged_table <- list(skin_wo_method, gill_wo_method, midgut_wo_method, hindgut_wo_method) %>%
-  reduce(full_join, by = "variable") %>%
+  reduce(full_join, by = "variable")
   
 
 # Saving the merged table 
@@ -422,7 +422,8 @@ gill_method_gear <- ggplot(gill_div_num, aes(x = method_gear, y = Shannon)) +
   ylab("Shannon Index") +
   geom_signif(comparisons = list(c("rod and reel","net")),
               y_position = 5,
-              annotations = "*") 
+              annotations = "*") +
+  theme(panel.grid = element_blank())
 gill_method_gear
 
 ggsave(gill_method_gear, file = "Gill_Method_Gear_Alpha.svg")
@@ -448,7 +449,8 @@ midgut_method_gear <- ggplot(midgut_div_num, aes(x = method_gear, y = Shannon)) 
   ylab("Shannon Index") +
   geom_signif(comparisons = list(c("rod and reel","benthic trawl")),
               y_position = 5,
-              annotations = "*") 
+              annotations = "*") +
+  theme(panel.grid = element_blank())
 midgut_method_gear 
 
 ggsave(midgut_method_gear, file = "Midgut_Method_Gear_Alpha.svg")
@@ -488,7 +490,8 @@ TukeyHSD(anova_hindgut_log)
 hindgut_method_gear <- ggplot(hindgut_div_num, aes(x = method_gear, y = Shannon)) + 
   geom_boxplot() +
   xlab("Method Gear") +
-  ylab("Shannon Index") 
+  ylab("Shannon Index") +
+  theme(panel.grid = element_blank())
 hindgut_method_gear 
 
 ggsave(hindgut_method_gear, file = "Hindgut_Method_Gear_Alpha.svg")
@@ -519,7 +522,8 @@ TukeyHSD(anova_skin_log)
 skin_method_gear <- ggplot(skin_div_num, aes(x = method_gear, y = Shannon)) + 
   geom_boxplot() +
   xlab("Method Gear") +
-  ylab("Shannon Index") 
+  ylab("Shannon Index") +
+  theme(panel.grid = element_blank())
 skin_method_gear 
 
 ggsave(skin_method_gear, file = "Skin_Method_Gear_Alpha.svg")
