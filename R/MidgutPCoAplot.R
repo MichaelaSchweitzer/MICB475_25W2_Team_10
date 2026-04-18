@@ -25,6 +25,8 @@ midgut_meta <- midgut_meta[match(sample_names(midgut_ps), midgut_meta$SampleID),
 dist_mat <- phyloseq::distance(midgut_ps, method = "wunifrac")
 pcoa_res <- ape::pcoa(as.matrix(dist_mat))
 
+dist_mat <- phyloseq::distance(midgut_rare, method = "wunifrac")
+
 # Coordinates
 pcoa_df <- data.frame(
   SampleID = rownames(pcoa_res$vectors),
@@ -38,12 +40,12 @@ var_exp <- round(pcoa_res$values$Relative_eig[1:2] * 100, 1)
 
 # Custom soft palette 
 custom_colors <- c(
-  "benthic trawl" = "#E69F00",
-  "gillnet" = "#56B4E9",
-  "midwater trawl" = "#009E73",
-  "net" = "#F0E442",
-  "rod and reel" = "#0072B2",
-  "spear" = "#CC79A7"
+  "benthic trawl" = "#97bd6c",
+  "gillnet" = "#57b1e4",
+  "midwater trawl" = "#f2cd57",
+  "net" = "#dd523e",
+  "rod and reel" = "#964292",
+  "spear" = "#26436d"
 )
 
 # Plot
@@ -64,3 +66,5 @@ ggplot(pcoa_df, aes(x = Axis1, y = Axis2, color = method_gear)) +
     legend.position = "right"
   )
 
+
+ggsave("pcoa.svg", width = 6, height = 4)

@@ -220,3 +220,43 @@ indic_res_skin_clean %>%
 ggsave("skin_ISA_dot.png", 
        width = 10, 
        height = 8)
+
+
+
+?reorder
+
+
+
+#svg for manuscript 
+# Custom soft palette 
+custom_colors <- c(
+  "benthic trawl" = "#97bd6c",
+  "gillnet" = "#57b1e4",
+  "midwater trawl" = "#f2cd57",
+  "net" = "#dd523e",
+  "rod and reel" = "#964292",
+  "spear" = "#26436d"
+)
+
+indic_res_midgut_clean %>%
+  ggplot(aes(x = stat, 
+             y = reorder(desc(Genus), as.numeric(as.factor(method_gear)) * 100 + stat),
+             color = method_gear, )) +
+  geom_point() +
+  scale_color_manual(values = custom_colors) +
+  theme_bw() +
+  theme(
+    axis.text.y = element_text(face = "italic", size = 9),
+    axis.text.x = element_text(size = 9),
+    legend.position = "right",
+    panel.grid.major.x = element_blank(),
+    panel.grid.minor.x = element_blank()
+  ) +
+  labs(x = "Indicator Value (stat)", 
+       y = NULL,
+       color = "Gear Type",
+       title = "Midgut Indicator Taxa by Gear Type")
+
+ggsave("midgut_ISA_dot.svg", 
+       width = 8, 
+       height = 8)
