@@ -109,6 +109,7 @@ merged_results_midgut <- tax_table(midgut_final) %>%
   rownames_to_column(var = "ASV") %>%
   right_join(sigASVs_midgut) %>%
   arrange(log2FoldChange) %>%
+  filter(Genus != "g__Incertae_Sedis") %>%
   mutate(Genus = make.unique(Genus)) %>%
   mutate(Genus = factor(Genus, levels = unique(Genus)))
 
@@ -161,6 +162,7 @@ merged_results_hindgut <- tax_table(hindgut_final) %>%
   rownames_to_column(var = "ASV") %>%
   right_join(sigASVs_hindgut) %>%
   arrange(log2FoldChange) %>%
+  filter(Genus != "g__Incertae_Sedis") %>%
   mutate(Genus = make.unique(Genus)) %>%
   mutate(Genus = factor(Genus, levels = unique(Genus)))
 
@@ -212,6 +214,7 @@ merged_results_gill <- tax_table(gill_phyloseq_object_clean) %>%
   rownames_to_column(var = "ASV") %>%
   right_join(sigASVs_gill) %>%
   arrange(log2FoldChange) %>%
+  filter(Genus != "g__Incertae_Sedis") %>%
   mutate(Genus = make.unique(Genus)) %>%
   mutate(Genus = factor(Genus, levels = unique(Genus)))
 
