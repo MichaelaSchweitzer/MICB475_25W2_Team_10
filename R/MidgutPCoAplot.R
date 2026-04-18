@@ -25,8 +25,6 @@ midgut_meta <- midgut_meta[match(sample_names(midgut_ps), midgut_meta$SampleID),
 dist_mat <- phyloseq::distance(midgut_ps, method = "wunifrac")
 pcoa_res <- ape::pcoa(as.matrix(dist_mat))
 
-dist_mat <- phyloseq::distance(midgut_rare, method = "wunifrac")
-
 # Coordinates
 pcoa_df <- data.frame(
   SampleID = rownames(pcoa_res$vectors),
@@ -68,3 +66,20 @@ ggplot(pcoa_df, aes(x = Axis1, y = Axis2, color = method_gear)) +
 
 
 ggsave("pcoa.svg", width = 6, height = 4)
+
+
+# pairwise PERMANOVA 
+dist_mat <- as.matrix(phyloseq::distance(midgut_rare, method = "wunifrac"))
+
+# install.packages("devtools")
+library(devtools)
+# install_github("pmartinezarbizu/pairwiseAdonis/pairwiseAdonis")
+library(pairwiseAdonis)
+
+#pairwise permanova 
+permanova <- pairwise.adonis2(dist_mat ~ method_gear, midgut_meta)
+
+#results table to view in excel 
+permanova_table <- as.data.frame(permanova)
+write.csv(permanova_table, "pairwise_permanova.csv")
+
