@@ -110,6 +110,7 @@ merged_results_midgut <- tax_table(midgut_final) %>%
   right_join(sigASVs_midgut) %>%
   arrange(log2FoldChange) %>%
   filter(Genus != "g__Incertae_Sedis") %>%
+  filter(Genus != "g__Subgroup_10") %>%
   mutate(Genus = make.unique(Genus)) %>%
   mutate(Genus = factor(Genus, levels = unique(Genus)))
 
