@@ -15,6 +15,8 @@ library(ape) # importing trees
 library(tidyverse)
 library(vegan)
 library(ggpubr) # for plotting spearman correlation values 
+library(ggsignif)
+library(svglite) # for exporting as svg 
 
 #### CREATING THE PHYLOSEQ OBJECT (March 1st and March 2nd, 2026 by Michaela, Updated March 27th, 2026 by Mirren) ####
 
@@ -339,6 +341,7 @@ hindgut_wo_method <- hindgut_results[,-3] %>%
 # Merging the tables for each organ into a single table 
 merged_table <- list(skin_wo_method, gill_wo_method, midgut_wo_method, hindgut_wo_method) %>%
   reduce(full_join, by = "variable")
+  
 
 # Saving the merged table 
 write.csv(merged_table, "alpha_div_pvalues.csv", row.names = FALSE)
@@ -408,11 +411,22 @@ gill_mass_g <- ggplot(gill_div_num, aes(x = mass_g, y = Shannon)) +
 gill_mass_g
 
 # Gill, method_gear 
-gill_method_gear <- ggplot(gill_div_num) + 
-  geom_boxplot(aes(y = Shannon, x = method_gear)) +
+lm_gill_method_gear <- lm(log(Shannon) ~ `method_gear`, data=gill_div_num)
+anova_gill_log <- aov(lm_gill_method_gear)
+summary(anova_gill_log)
+TukeyHSD(anova_gill_log)
+
+gill_method_gear <- ggplot(gill_div_num, aes(x = method_gear, y = Shannon)) + 
+  geom_boxplot() +
   xlab("Method Gear") +
-  ylab("Shannon Index")
+  ylab("Shannon Index") +
+  geom_signif(comparisons = list(c("rod and reel","net")),
+              y_position = 5,
+              annotations = "*") +
+  theme(panel.grid = element_blank())
 gill_method_gear
+
+ggsave(gill_method_gear, file = "Gill_Method_Gear_Alpha.svg")
 
 # Gill, tl_cm 
 gill_tail_cm <- ggplot(gill_div_num, aes(x = tl_cm, y = Shannon)) + 
@@ -424,11 +438,22 @@ gill_tail_cm <- ggplot(gill_div_num, aes(x = tl_cm, y = Shannon)) +
 gill_tail_cm
 
 # Midgut, method_gear 
-midgut_method_gear <- ggplot(midgut_div_num) + 
-  geom_boxplot(aes(y = Shannon, x = method_gear)) +
+lm_midgut_method_gear <- lm(log(Shannon) ~ `method_gear`, data=midgut_div_num)
+anova_midgut_log <- aov(lm_midgut_method_gear)
+summary(anova_midgut_log)
+TukeyHSD(anova_midgut_log)
+
+midgut_method_gear <- ggplot(midgut_div_num, aes(x = method_gear, y = Shannon)) + 
+  geom_boxplot() +
   xlab("Method Gear") +
-  ylab("Shannon Index")
+  ylab("Shannon Index") +
+  geom_signif(comparisons = list(c("rod and reel","benthic trawl")),
+              y_position = 5,
+              annotations = "*") +
+  theme(panel.grid = element_blank())
 midgut_method_gear 
+
+ggsave(midgut_method_gear, file = "Midgut_Method_Gear_Alpha.svg")
 
 # Midgut, month 
 midgut_div_num$month <- factor(midgut_div_num$month)
@@ -457,11 +482,19 @@ midgut_gape_tl <- ggplot(midgut_div_num, aes(x = ratio_gape_to_tl, y = Shannon))
 midgut_gape_tl
 
 # Hindgut, method_gear 
-hindgut_method_gear <- ggplot(hindgut_div_num) + 
-  geom_boxplot(aes(y = Shannon, x = method_gear)) +
+lm_hindgut_method_gear <- lm(log(Shannon) ~ `method_gear`, data=hindgut_div_num)
+anova_hindgut_log <- aov(lm_hindgut_method_gear)
+summary(anova_hindgut_log)
+TukeyHSD(anova_hindgut_log)
+
+hindgut_method_gear <- ggplot(hindgut_div_num, aes(x = method_gear, y = Shannon)) + 
+  geom_boxplot() +
   xlab("Method Gear") +
-  ylab("Shannon Index")
+  ylab("Shannon Index") +
+  theme(panel.grid = element_blank())
 hindgut_method_gear 
+
+ggsave(hindgut_method_gear, file = "Hindgut_Method_Gear_Alpha.svg")
 
 # Hindgut, month 
 hindgut_div_num$month <- factor(hindgut_div_num$month)
@@ -479,3 +512,20 @@ hindgut_gape_tl <- ggplot(hindgut_div_num, aes(x = ratio_gape_to_tl, y = Shannon
   ylab("Shannon Index") +
   stat_cor(method = "spearman", label.x = 0.2) 
 hindgut_gape_tl
+
+# Skin, method_gear
+lm_skin_method_gear <- lm(log(Shannon) ~ `method_gear`, data=skin_div_num)
+anova_skin_log <- aov(lm_skin_method_gear)
+summary(anova_skin_log)
+TukeyHSD(anova_skin_log)
+
+skin_method_gear <- ggplot(skin_div_num, aes(x = method_gear, y = Shannon)) + 
+  geom_boxplot() +
+  xlab("Method Gear") +
+  ylab("Shannon Index") +
+  theme(panel.grid = element_blank())
+skin_method_gear 
+
+ggsave(skin_method_gear, file = "Skin_Method_Gear_Alpha.svg")
+
+

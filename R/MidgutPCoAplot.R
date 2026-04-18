@@ -38,12 +38,12 @@ var_exp <- round(pcoa_res$values$Relative_eig[1:2] * 100, 1)
 
 # Custom soft palette 
 custom_colors <- c(
-  "benthic trawl" = "#E69F00",
-  "gillnet" = "#56B4E9",
-  "midwater trawl" = "#009E73",
-  "net" = "#F0E442",
-  "rod and reel" = "#0072B2",
-  "spear" = "#CC79A7"
+  "benthic trawl" = "#97bd6c",
+  "gillnet" = "#57b1e4",
+  "midwater trawl" = "#f2cd57",
+  "net" = "#dd523e",
+  "rod and reel" = "#964292",
+  "spear" = "#26436d"
 )
 
 # Plot
@@ -63,4 +63,23 @@ ggplot(pcoa_df, aes(x = Axis1, y = Axis2, color = method_gear)) +
     plot.title = element_text(face = "bold"),
     legend.position = "right"
   )
+
+
+ggsave("pcoa.svg", width = 6, height = 4)
+
+
+# pairwise PERMANOVA 
+dist_mat <- as.matrix(phyloseq::distance(midgut_rare, method = "wunifrac"))
+
+# install.packages("devtools")
+library(devtools)
+# install_github("pmartinezarbizu/pairwiseAdonis/pairwiseAdonis")
+library(pairwiseAdonis)
+
+#pairwise permanova 
+permanova <- pairwise.adonis2(dist_mat ~ method_gear, midgut_meta)
+
+#results table to view in excel 
+permanova_table <- as.data.frame(permanova)
+write.csv(permanova_table, "pairwise_permanova.csv")
 

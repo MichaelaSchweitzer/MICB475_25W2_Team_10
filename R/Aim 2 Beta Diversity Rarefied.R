@@ -154,7 +154,7 @@ run_beta_loop <- function(metadata_df, physeq_obj, vars, num_vars) {
     
     # Calculate weighted UniFrac distance
     dist_mat <- phyloseq::distance(ps_sub, method = "wunifrac")
-    
+
     # Run PERMANOVA
     adonis_res <- adonis2(dist_mat ~ meta_sub[[v]], permutations = 999)
     
@@ -292,3 +292,18 @@ R2_values
 ggsave(file = "betadiv.png", 
       , plot = R2_values, 
       , height=8, width=20)
+
+# Making a PCoA plot 
+# Gill 
+pcoa_method_gear_gill <- ordinate(gill_rare, method="PCoA", distance=gill_beta_results)
+
+plot_ordination(mpt_rare, pcoa_bc, color = "body.site", shape="subject")
+
+gg_pcoa <- plot_ordination(mpt_rare, pcoa_bc, color = "body.site", shape="subject") +
+  labs(pch="Subject #", col = "Body Site")
+gg_pcoa
+
+ggsave("plot_pcoa.png"
+       , gg_pcoa
+       , height=4, width=5)
+
