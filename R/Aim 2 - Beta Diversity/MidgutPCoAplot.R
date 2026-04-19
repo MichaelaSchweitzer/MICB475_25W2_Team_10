@@ -1,6 +1,11 @@
+# Install devtools
+install.packages(devtools)
+
+# Load libraries
 library(phyloseq)
 library(ape)
 library(tidyverse)
+
 
 # Load data
 load("all_phyloseq_objects_rarefied.RData")
