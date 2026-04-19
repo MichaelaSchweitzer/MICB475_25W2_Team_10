@@ -10,8 +10,9 @@ library(phyloseq)
 library(ape)
 library(tidyverse)
 library(vegan)
+library(ggplot2)
 library(ggpubr) # for plotting spearman correlation values 
-library(ggsignif)
+library(ggsignif) # for plotting significance on boxplot
 library(svglite) # for exporting as svg 
 
 #### CREATING THE PHYLOSEQ OBJECT (March 1st and March 2nd, 2026 by Michaela, Updated March 27th, 2026 by Mirren) ####
@@ -323,7 +324,7 @@ write.csv(hindgut_results, "hindgut_alpha_results.csv", row.names = FALSE)
 write.csv(midgut_results, "midgut_alpha_results.csv", row.names = FALSE)
 write.csv(gill_results, "gill_alpha_results.csv", row.names = FALSE)
 
-#### P-value table figure ####
+#### P-value table figure (Table 1) ####
 # Creating a table to look at p-values for each variable across each organ 
 skin_wo_method <- skin_results[,-3] %>%
   setNames(c("variable", "Skin"))
@@ -338,73 +339,72 @@ hindgut_wo_method <- hindgut_results[,-3] %>%
 merged_table <- list(skin_wo_method, gill_wo_method, midgut_wo_method, hindgut_wo_method) %>%
   reduce(full_join, by = "variable")
   
-
 # Saving the merged table 
 write.csv(merged_table, "alpha_div_pvalues.csv", row.names = FALSE)
 
-#### Within variable alpha diversity plots ####
+#### Within variable alpha diversity plots (for all significant variables) ####
 # Skin, dist_to_dorsal_cm
-skin_dist_dorsal <- ggplot(skin_div_num, aes(x = dist_to_dorsal_cm, y = Shannon)) + 
-  geom_point() + 
-  geom_smooth(method = "lm") + 
-  xlab("Distance to Dorsal (cm)") + 
-  ylab("Shannon Index") +
-  stat_cor(method = "spearman", label.x = 30) 
-skin_dist_dorsal 
+# skin_dist_dorsal <- ggplot(skin_div_num, aes(x = dist_to_dorsal_cm, y = Shannon)) + 
+ # geom_point() + 
+ # geom_smooth(method = "lm") + 
+ # xlab("Distance to Dorsal (cm)") + 
+ # ylab("Shannon Index") +
+ # stat_cor(method = "spearman", label.x = 30) 
+# skin_dist_dorsal 
 
 # Gill, dist_to_dorsal_cm
-gill_dist_dorsal <- ggplot(gill_div_num, aes(x = dist_to_dorsal_cm, y = Shannon)) + 
-  geom_point() + 
-  geom_smooth(method = "lm") + 
-  xlab("Distance to Dorsal (cm)") + 
-  ylab("Shannon Index") +
-  stat_cor(method = "spearman", label.x = 30) 
-gill_dist_dorsal 
+# gill_dist_dorsal <- ggplot(gill_div_num, aes(x = dist_to_dorsal_cm, y = Shannon)) + 
+ # geom_point() + 
+ # geom_smooth(method = "lm") + 
+ # xlab("Distance to Dorsal (cm)") + 
+ # ylab("Shannon Index") +
+ # stat_cor(method = "spearman", label.x = 30) 
+# gill_dist_dorsal 
 
 # Gill, fl_cm
-gill_fl_cm <- ggplot(gill_div_num, aes(x = fl_cm, y = Shannon)) + 
-  geom_point() + 
-  geom_smooth(method = "lm") +
-  xlab("Fork Length (cm)") + 
-  ylab("Shannon Index") + 
-  stat_cor(method = "spearman", label.x = 75) 
-gill_fl_cm 
+# gill_fl_cm <- ggplot(gill_div_num, aes(x = fl_cm, y = Shannon)) + 
+ # geom_point() + 
+ # geom_smooth(method = "lm") +
+ # xlab("Fork Length (cm)") + 
+ # ylab("Shannon Index") + 
+ # stat_cor(method = "spearman", label.x = 75) 
+# gill_fl_cm 
 
 # Gill, gape_cm
-gill_gape_cm <- ggplot(gill_div_num, aes(x = gape_cm, y = Shannon)) + 
-  geom_point() + 
-  geom_smooth(method = "lm") + 
-  xlab("Gape Length (cm)") + 
-  ylab("Shannon Index") + 
-  stat_cor(method = "spearman", label.x = 7) 
-gill_gape_cm 
+# gill_gape_cm <- ggplot(gill_div_num, aes(x = gape_cm, y = Shannon)) + 
+ # geom_point() + 
+ # geom_smooth(method = "lm") + 
+ # xlab("Gape Length (cm)") + 
+ # ylab("Shannon Index") + 
+ # stat_cor(method = "spearman", label.x = 7) 
+# gill_gape_cm 
 
 # Gill, gi_cm 
-gill_gi_cm <- ggplot(gill_div_num, aes(x = gi_cm, y = Shannon)) + 
-  geom_point() + 
-  geom_smooth(method = "lm") + 
-  xlab("Length of GI Tract (cm)") +
-  ylab("Shannon Index") +
-  stat_cor(method = "spearman", label.x = 45) 
-gill_gi_cm 
+# gill_gi_cm <- ggplot(gill_div_num, aes(x = gi_cm, y = Shannon)) + 
+ # geom_point() + 
+ # geom_smooth(method = "lm") + 
+ # xlab("Length of GI Tract (cm)") +
+ # ylab("Shannon Index") +
+ # stat_cor(method = "spearman", label.x = 45) 
+# gill_gi_cm 
 
 # Gill, host_height 
-gill_host_height <- ggplot(gill_div_num, aes(x = host_height, y = Shannon)) +
-  geom_point() + 
-  geom_smooth(method = "lm") + 
-  xlab("Host Height (cm)") + 
-  ylab("Shannon Index") +
-  stat_cor(method = "spearman", label.x = 80) 
-gill_host_height
+# gill_host_height <- ggplot(gill_div_num, aes(x = host_height, y = Shannon)) +
+ # geom_point() + 
+ # geom_smooth(method = "lm") + 
+ # xlab("Host Height (cm)") + 
+ # ylab("Shannon Index") +
+ # stat_cor(method = "spearman", label.x = 80) 
+# gill_host_height
 
 # Gill, mass_g 
-gill_mass_g <- ggplot(gill_div_num, aes(x = mass_g, y = Shannon)) + 
-  geom_point() + 
-  geom_smooth(method = "lm") + 
-  xlab("Mass (g)") +
-  ylab("Shannon Index") +
-  stat_cor(method = "spearman", label.x = 2500) 
-gill_mass_g
+# gill_mass_g <- ggplot(gill_div_num, aes(x = mass_g, y = Shannon)) + 
+ # geom_point() + 
+ # geom_smooth(method = "lm") + 
+ # xlab("Mass (g)") +
+ # ylab("Shannon Index") +
+ # stat_cor(method = "spearman", label.x = 2500) 
+# gill_mass_g
 
 # Gill, method_gear 
 lm_gill_method_gear <- lm(log(Shannon) ~ `method_gear`, data=gill_div_num)
@@ -423,15 +423,16 @@ gill_method_gear <- ggplot(gill_div_num, aes(x = method_gear, y = Shannon)) +
 gill_method_gear
 
 ggsave(gill_method_gear, file = "Gill_Method_Gear_Alpha.svg")
+ggsave(gill_method_gear, file = "Gill_Method_Gear_Alpha.png")
 
 # Gill, tl_cm 
-gill_tail_cm <- ggplot(gill_div_num, aes(x = tl_cm, y = Shannon)) + 
-  geom_point() + 
-  geom_smooth(method = "lm") + 
-  xlab("Tail Length (cm)") +
-  ylab("Shannon Index") +
-  stat_cor(method = "spearman", label.x = 80) 
-gill_tail_cm
+# gill_tail_cm <- ggplot(gill_div_num, aes(x = tl_cm, y = Shannon)) + 
+ # geom_point() + 
+ # geom_smooth(method = "lm") + 
+ # xlab("Tail Length (cm)") +
+ # ylab("Shannon Index") +
+ # stat_cor(method = "spearman", label.x = 80) 
+# gill_tail_cm
 
 # Midgut, method_gear 
 lm_midgut_method_gear <- lm(log(Shannon) ~ `method_gear`, data=midgut_div_num)
@@ -450,32 +451,33 @@ midgut_method_gear <- ggplot(midgut_div_num, aes(x = method_gear, y = Shannon)) 
 midgut_method_gear 
 
 ggsave(midgut_method_gear, file = "Midgut_Method_Gear_Alpha.svg")
+ggsave(midgut_method_gear, file = "Midgut_Method_Gear_Alpha.png")
 
 # Midgut, month 
-midgut_div_num$month <- factor(midgut_div_num$month)
-midgut_month <- ggplot(midgut_div_num) + 
-  geom_boxplot(aes(y = Shannon, x = month)) +
-  xlab("Month") +
-  ylab("Shannon Index")
-midgut_month
+# midgut_div_num$month <- factor(midgut_div_num$month)
+# midgut_month <- ggplot(midgut_div_num) + 
+ # geom_boxplot(aes(y = Shannon, x = month)) +
+ # xlab("Month") +
+ # ylab("Shannon Index")
+# midgut_month
 
 # Midgut, ratio_dorsal_to_tl
-midgut_dorsal_tl <- ggplot(midgut_div_num, aes(x = ratio_dorsal_to_tl, y = Shannon)) + 
-  geom_point() + 
-  geom_smooth(method = "lm") + 
-  xlab("Ratio of dorsal length to tail length") +
-  ylab("Shannon Index") +
-  stat_cor(method = "spearman", label.x = 0.5) 
-midgut_dorsal_tl
+# midgut_dorsal_tl <- ggplot(midgut_div_num, aes(x = ratio_dorsal_to_tl, y = Shannon)) + 
+ # geom_point() + 
+ # geom_smooth(method = "lm") + 
+ # xlab("Ratio of dorsal length to tail length") +
+ # ylab("Shannon Index") +
+ # stat_cor(method = "spearman", label.x = 0.5) 
+# midgut_dorsal_tl
 
 # Midgut, gape_to_tl
-midgut_gape_tl <- ggplot(midgut_div_num, aes(x = ratio_gape_to_tl, y = Shannon)) + 
-  geom_point() + 
-  geom_smooth(method = "lm") + 
-  xlab("Ratio of gape length to tail length") +
-  ylab("Shannon Index") +
-  stat_cor(method = "spearman", label.x = 0.2) 
-midgut_gape_tl
+# midgut_gape_tl <- ggplot(midgut_div_num, aes(x = ratio_gape_to_tl, y = Shannon)) + 
+ # geom_point() + 
+ # geom_smooth(method = "lm") + 
+ # xlab("Ratio of gape length to tail length") +
+ # ylab("Shannon Index") +
+ # stat_cor(method = "spearman", label.x = 0.2) 
+# midgut_gape_tl
 
 # Hindgut, method_gear 
 lm_hindgut_method_gear <- lm(log(Shannon) ~ `method_gear`, data=hindgut_div_num)
@@ -491,37 +493,38 @@ hindgut_method_gear <- ggplot(hindgut_div_num, aes(x = method_gear, y = Shannon)
 hindgut_method_gear 
 
 ggsave(hindgut_method_gear, file = "Hindgut_Method_Gear_Alpha.svg")
+ggsave(hindgut_method_gear, file = "Hindgut_Method_Gear_Alpha.png")
 
 # Hindgut, month 
-hindgut_div_num$month <- factor(hindgut_div_num$month)
-hindgut_month <- ggplot(hindgut_div_num) + 
-  geom_boxplot(aes(y = Shannon, x = month)) +
-  xlab("Month") +
-  ylab("Shannon Index")
-hindgut_month
+# hindgut_div_num$month <- factor(hindgut_div_num$month)
+# hindgut_month <- ggplot(hindgut_div_num) + 
+ # geom_boxplot(aes(y = Shannon, x = month)) +
+ # xlab("Month") +
+ # ylab("Shannon Index")
+# hindgut_month
 
 # Hindgut, gape_to_tl
-hindgut_gape_tl <- ggplot(hindgut_div_num, aes(x = ratio_gape_to_tl, y = Shannon)) + 
-  geom_point() + 
-  geom_smooth(method = "lm") + 
-  xlab("Ratio of gape length to tail length") +
-  ylab("Shannon Index") +
-  stat_cor(method = "spearman", label.x = 0.2) 
-hindgut_gape_tl
+# hindgut_gape_tl <- ggplot(hindgut_div_num, aes(x = ratio_gape_to_tl, y = Shannon)) + 
+ # geom_point() + 
+ # geom_smooth(method = "lm") + 
+ # xlab("Ratio of gape length to tail length") +
+ # ylab("Shannon Index") +
+ # stat_cor(method = "spearman", label.x = 0.2) 
+# hindgut_gape_tl
 
 # Skin, method_gear
-lm_skin_method_gear <- lm(log(Shannon) ~ `method_gear`, data=skin_div_num)
-anova_skin_log <- aov(lm_skin_method_gear)
-summary(anova_skin_log)
-TukeyHSD(anova_skin_log)
+# lm_skin_method_gear <- lm(log(Shannon) ~ `method_gear`, data=skin_div_num)
+# anova_skin_log <- aov(lm_skin_method_gear)
+# summary(anova_skin_log)
+# TukeyHSD(anova_skin_log)
 
-skin_method_gear <- ggplot(skin_div_num, aes(x = method_gear, y = Shannon)) + 
-  geom_boxplot() +
-  xlab("Method Gear") +
-  ylab("Shannon Index") +
-  theme(panel.grid = element_blank())
-skin_method_gear 
+# skin_method_gear <- ggplot(skin_div_num, aes(x = method_gear, y = Shannon)) + 
+ # geom_boxplot() +
+ # xlab("Method Gear") +
+ # ylab("Shannon Index") +
+ # theme(panel.grid = element_blank())
+# skin_method_gear 
 
-ggsave(skin_method_gear, file = "Skin_Method_Gear_Alpha.svg")
+# ggsave(skin_method_gear, file = "Skin_Method_Gear_Alpha.svg")
 
 
